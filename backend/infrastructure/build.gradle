@@ -1,8 +1,18 @@
 plugins {
     id 'java-library'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+    }
 }
 
 dependencies {
     implementation project(':application')
     implementation project(':domain')
+
+    // Core dependencies
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 }

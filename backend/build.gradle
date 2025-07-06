@@ -2,8 +2,12 @@ plugins {
     id 'java'
 }
 
+ext {
+    springBootVersion = '3.5.3'
+}
+
 allprojects {
-    group = 'com.getopenschool'
+    group = 'com.openschool'
     version = '0.0.1-SNAPSHOT'
 
     repositories {
