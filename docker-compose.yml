@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:17.5
+    container_name: openschool-postgres
+    environment:
+      POSTGRES_DB: openschool
+      POSTGRES_USER: openschool_user
+      POSTGRES_PASSWORD: openschool_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - openschool-network
+
+volumes:
+  postgres_data:
+
+networks:
+  openschool-network:
+    driver: bridge

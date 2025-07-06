@@ -15,4 +15,8 @@ dependencies {
 
     // Core dependencies
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Liquibase
+    implementation 'org.liquibase:liquibase-core'
+    runtimeOnly 'org.postgresql:postgresql'
 }

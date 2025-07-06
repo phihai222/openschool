@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: user-001-create-table
+      author: openschool
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: email
+                  type: VARCHAR(255)
+      rollback:
+        - dropTable:
+            tableName: users
