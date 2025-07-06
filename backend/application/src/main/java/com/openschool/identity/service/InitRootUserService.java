@@ -1,6 +1,7 @@
 package com.openschool.identity.service;
 
 import com.openschool.domain.identity.model.UserCredentials;
+import com.openschool.identity.exception.RootUserAlreadyExistsException;
 import com.openschool.identity.port.out.UserCredentialsRepository;
 import com.openschool.identity.port.in.InitRootUserUseCase;
 
@@ -16,7 +17,7 @@ public class InitRootUserService implements InitRootUserUseCase {
     @Override
     public void initRoot(String username, String rawPassword) {
         if (repository.findByUsername(username).isPresent()) {
-            throw new RuntimeException("Root user already exists");
+            throw new RootUserAlreadyExistsException();
         }
         String passwordHash = hashPassword(rawPassword);
         UserCredentials user = new UserCredentials(UUID.randomUUID().toString(), username, passwordHash);
