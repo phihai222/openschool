@@ -1,6 +1,3 @@
 spring:
   application:
     name: OpenSchool API
-  docker:
-    compose:
-      file: openschool-api/compose.yaml
