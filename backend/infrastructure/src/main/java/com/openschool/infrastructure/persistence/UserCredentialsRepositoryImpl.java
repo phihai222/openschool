@@ -1,7 +1,7 @@
-package com.openschool.infrastructure.identity;
+package com.openschool.infrastructure.persistence;
 
-import com.openschool.domain.identity.UserCredentials;
-import com.openschool.domain.identity.UserCredentialsRepository;
+import com.openschool.domain.identity.model.UserCredentials;
+import com.openschool.identity.port.out.UserCredentialsRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;

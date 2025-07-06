@@ -1,4 +1,4 @@
-package com.openschool.infrastructure.identity;
+package com.openschool.infrastructure.persistence;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

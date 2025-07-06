@@ -1,4 +1,6 @@
-package com.openschool.domain.identity;
+package com.openschool.identity.port.out;
+
+import com.openschool.domain.identity.model.UserCredentials;
 
 import java.util.Optional;
 

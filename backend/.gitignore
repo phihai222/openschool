@@ -7,7 +7,6 @@ build/
 .idea/
 *.iml
 *.iws
-out/
 
 # VS Code
 .vscode/

@@ -1,7 +1,8 @@
-package com.openschool.identity;
+package com.openschool.identity.service;
 
-import com.openschool.domain.identity.UserCredentials;
-import com.openschool.domain.identity.UserCredentialsRepository;
+import com.openschool.domain.identity.model.UserCredentials;
+import com.openschool.identity.port.out.UserCredentialsRepository;
+import com.openschool.identity.port.in.InitRootUserUseCase;
 
 import java.util.UUID;
 

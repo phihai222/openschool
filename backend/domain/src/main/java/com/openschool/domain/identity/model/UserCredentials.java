@@ -1,4 +1,4 @@
-package com.openschool.domain.identity;
+package com.openschool.domain.identity.model;
 
 import lombok.Getter;
 import lombok.Setter;

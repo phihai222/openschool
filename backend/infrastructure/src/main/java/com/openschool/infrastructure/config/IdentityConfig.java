@@ -1,8 +1,8 @@
-package com.openschool.infrastructure.identity;
+package com.openschool.infrastructure.config;
 
-import com.openschool.domain.identity.UserCredentialsRepository;
-import com.openschool.identity.InitRootUserService;
-import com.openschool.identity.InitRootUserUseCase;
+import com.openschool.identity.port.out.UserCredentialsRepository;
+import com.openschool.identity.service.InitRootUserService;
+import com.openschool.identity.port.in.InitRootUserUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

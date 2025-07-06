@@ -1,8 +1,7 @@
 package com.openschool.infrastructure.rest;
 
-import com.openschool.identity.InitRootUserUseCase;
-import lombok.Getter;
-import lombok.Setter;
+import com.openschool.identity.port.in.InitRootUserUseCase;
+import com.openschool.infrastructure.rest.dto.InitRootRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,9 +25,3 @@ public class AuthController {
     }
 }
 
-@Getter
-@Setter
-class InitRootRequest {
-    private String username;
-    private String password;
-}
