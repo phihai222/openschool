@@ -1,4 +1,4 @@
-package com.openschool.infrastructure.rest.identity;
+package com.openschool.infrastructure.adapter.in.rest.health;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,4 +1,4 @@
-package com.openschool.infrastructure.persistence.identity;
+package com.openschool.infrastructure.adapter.out.persistence.identity.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
