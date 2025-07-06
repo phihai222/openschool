@@ -1,0 +1,6 @@
+rootProject.name = 'openschool'
+
+include 'application'
+include 'domain'
+include 'infrastructure'
+include 'spring'

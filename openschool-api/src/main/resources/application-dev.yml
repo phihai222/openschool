@@ -1,4 +1,0 @@
-spring:
-  docker:
-    compose:
-      file: openschool-api/compose.yaml
