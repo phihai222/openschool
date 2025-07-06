@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
-      file: db/changelog/user/changelog-master-user.yaml
+      file: db/changelog/identity/changelog-master-identity.yaml
+  - include:
+      file: db/changelog/account/changelog-master-user.yaml
