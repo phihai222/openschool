@@ -1,1 +1,3 @@
 rootProject.name = 'openschool-api'
+
+include 'core'
