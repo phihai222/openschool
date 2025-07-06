@@ -1,4 +1,4 @@
-package com.openschool.infrastructure.rest.dto;
+package com.openschool.infrastructure.rest.identity.dto;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,7 +1,7 @@
 package com.openschool.infrastructure.rest;
 
 import com.openschool.identity.port.in.InitRootUserUseCase;
-import com.openschool.infrastructure.rest.dto.InitRootRequest;
+import com.openschool.infrastructure.rest.identity.dto.InitRootRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -1,4 +1,4 @@
-package com.openschool.infrastructure.persistence;
+package com.openschool.infrastructure.persistence.identity;
 
 import com.openschool.domain.identity.model.UserCredentials;
 import com.openschool.identity.port.out.UserCredentialsRepository;
