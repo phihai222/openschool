@@ -22,3 +22,8 @@ server:
 logging:
   level:
     liquibase: debug
+
+security:
+  jwt:
+    secret: "VGhpcyBpcyBhIHNhbXBsZSBzZWNyZXQga2V5IHdpdGggMzIgYnl0ZXMgcGFkZGVkLg=="
+    expiration-in-ms: 86400000
