@@ -1,7 +1,7 @@
 package com.openschool.identity.port.out;
 
-import com.openschool.domain.identity.model.UserCredentials;
+import com.openschool.domain.identity.model.Account;
 
 public interface TokenGeneratorPort {
-    String generateToken(UserCredentials user);
+    String generateToken(Account user);
 }

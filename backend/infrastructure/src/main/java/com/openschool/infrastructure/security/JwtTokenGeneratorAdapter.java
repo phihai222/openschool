@@ -1,6 +1,6 @@
 package com.openschool.infrastructure.security;
 
-import com.openschool.domain.identity.model.UserCredentials;
+import com.openschool.domain.identity.model.Account;
 import com.openschool.identity.port.out.TokenGeneratorPort;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +14,7 @@ public class JwtTokenGeneratorAdapter implements TokenGeneratorPort {
     }
 
     @Override
-    public String generateToken(UserCredentials user) {
-        return jwtProvider.generateToken(user.getId(), user.getUsername());
+    public String generateToken(Account user) {
+        return jwtProvider.generateToken(user.getId().toString(), user.getUsername());
     }
 }
