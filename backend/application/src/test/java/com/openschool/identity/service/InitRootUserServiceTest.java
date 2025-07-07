@@ -1,7 +1,7 @@
 package com.openschool.identity.service;
 
 import com.openschool.domain.identity.model.UserCredentials;
-import com.openschool.identity.exception.RootUserAlreadyExistsException;
+import com.openschool.identity.exception.UserAlreadyExistsException;
 import com.openschool.identity.port.out.PasswordEncoderPort;
 import com.openschool.identity.port.out.UserCredentialsRepositoryPort;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,7 +42,7 @@ class InitRootUserServiceTest {
         String username = "root";
         when(repository.findByUsername(username)).thenReturn(Optional.of(mock(UserCredentials.class)));
 
-        assertThrows(RootUserAlreadyExistsException.class, () -> service.initRoot(username, "password"));
+        assertThrows(UserAlreadyExistsException.class, () -> service.initRoot(username, "password"));
         verify(repository, never()).save(any());
     }
 }
