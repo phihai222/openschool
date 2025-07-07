@@ -8,6 +8,7 @@ import com.openschool.identity.port.out.AccountRepositoryPort;
 import com.openschool.identity.port.out.PasswordEncoderPort;
 import com.openschool.identity.port.out.IdentityRepositoryPort;
 import com.openschool.identity.port.in.InitRootUserUseCase;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 import java.util.UUID;
@@ -18,6 +19,7 @@ public class InitRootUserService implements InitRootUserUseCase {
     private final AccountRepositoryPort accountRepository;
     private final PasswordEncoderPort passwordEncoder;
 
+    @Transactional
     @Override
     public void initRoot(String username, String rawPassword) {
         // Check if the root user already exists

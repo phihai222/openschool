@@ -22,6 +22,8 @@ server:
 logging:
   level:
     liquibase: debug
+    org.springframework.transaction: debug # Enable debug logging for transaction management
+    org.springframework.orm.jpa.JpaTransactionManager: debug # Enable debug logging for JPA transaction manager
 
 security:
   jwt:
