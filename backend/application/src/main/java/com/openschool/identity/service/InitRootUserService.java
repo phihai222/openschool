@@ -2,15 +2,15 @@ package com.openschool.identity.service;
 
 import com.openschool.domain.identity.model.UserCredentials;
 import com.openschool.identity.exception.RootUserAlreadyExistsException;
-import com.openschool.identity.port.out.UserCredentialsRepository;
+import com.openschool.identity.port.out.UserCredentialsRepositoryPort;
 import com.openschool.identity.port.in.InitRootUserUseCase;
 
 import java.util.UUID;
 
 public class InitRootUserService implements InitRootUserUseCase {
-    private final UserCredentialsRepository repository;
+    private final UserCredentialsRepositoryPort repository;
 
-    public InitRootUserService(UserCredentialsRepository repository) {
+    public InitRootUserService(UserCredentialsRepositoryPort repository) {
         this.repository = repository;
     }
 

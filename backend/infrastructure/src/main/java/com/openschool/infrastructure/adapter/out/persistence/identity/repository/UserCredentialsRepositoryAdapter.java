@@ -1,6 +1,7 @@
 package com.openschool.infrastructure.adapter.out.persistence.identity.repository;
 
 import com.openschool.domain.identity.model.UserCredentials;
+import com.openschool.identity.port.out.UserCredentialsRepositoryPort;
 import com.openschool.infrastructure.adapter.out.persistence.identity.entity.UserCredentialsEntity;
 import org.springframework.stereotype.Repository;
 
@@ -8,11 +9,11 @@ import java.util.UUID;
 import java.util.Optional;
 
 @Repository
-public class UserCredentialsRepository implements com.openschool.identity.port.out.UserCredentialsRepository {
+public class UserCredentialsRepositoryAdapter implements UserCredentialsRepositoryPort {
 
     private final JpaUserCredentialsRepository jpaUserCredentialsRepository;
 
-    public UserCredentialsRepository(JpaUserCredentialsRepository jpaUserCredentialsRepository) {
+    public UserCredentialsRepositoryAdapter(JpaUserCredentialsRepository jpaUserCredentialsRepository) {
         this.jpaUserCredentialsRepository = jpaUserCredentialsRepository;
     }
 
