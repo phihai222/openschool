@@ -6,6 +6,9 @@ import com.openschool.infrastructure.adapter.out.persistence.identity.entity.Ide
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Repository
 @AllArgsConstructor
 public class IdentityRepositoryAdapter implements IdentityRepositoryPort {
@@ -18,5 +21,13 @@ public class IdentityRepositoryAdapter implements IdentityRepositoryPort {
                         .id(identity.getId())
                         .build()
         );
+    }
+
+    @Override
+    public Optional<Identity> findById(UUID id) {
+        return jpaIdentityRepository.findById(id)
+                .map(entity -> Identity.builder()
+                        .id(entity.getId())
+                        .build());
     }
 }

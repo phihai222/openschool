@@ -1,10 +1,9 @@
 package com.openschool.infrastructure.config;
 
 import com.openschool.identity.port.in.LoginUseCase;
-import com.openschool.identity.port.out.AccountRepositoryPort;
-import com.openschool.identity.port.out.PasswordEncoderPort;
-import com.openschool.identity.port.out.TokenGeneratorPort;
-import com.openschool.identity.port.out.IdentityRepositoryPort;
+import com.openschool.identity.port.in.UpdateProfileUseCase;
+import com.openschool.identity.port.out.*;
+import com.openschool.identity.service.UpdateProfileService;
 import com.openschool.identity.service.InitRootUserService;
 import com.openschool.identity.port.in.InitRootUserUseCase;
 import com.openschool.identity.service.LoginService;
@@ -25,5 +24,11 @@ public class IdentityConfig {
                                      PasswordEncoderPort passwordEncoder,
                                      TokenGeneratorPort tokenGeneratorPort) {
         return new LoginService(accountRepositoryPort, passwordEncoder, tokenGeneratorPort);
+    }
+
+    @Bean
+    public UpdateProfileUseCase updateProfileUseCase(IdentityRepositoryPort identityRepositoryPort,
+                                                     ProfileRepositoryPort profileRepositoryPort) {
+        return new UpdateProfileService(profileRepositoryPort, identityRepositoryPort);
     }
 }

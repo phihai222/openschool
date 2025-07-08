@@ -58,5 +58,11 @@ public class ProfileRepositoryAdapter implements ProfileRepositoryPort {
         ProfileEntity updated = jpaProfileRepository.save(toEntity(profile));
         return toDomain(updated);
     }
+
+    @Override
+    public Optional<Profile> findByIdentityId(UUID identityId) {
+        return jpaProfileRepository.findByIdentityId(identityId)
+                .map(this::toDomain);
+    }
 }
 

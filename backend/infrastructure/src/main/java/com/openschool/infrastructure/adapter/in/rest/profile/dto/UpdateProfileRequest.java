@@ -1,4 +1,4 @@
-package com.openschool.identity.port.in.command;
+package com.openschool.infrastructure.adapter.in.rest.profile.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,10 +12,9 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @Builder
-public class CreateProfileCommand {
+public class UpdateProfileRequest {
     private UUID identityId;
     private String firstName;
     private String lastName;
     private LocalDate birthdate;
 }
-

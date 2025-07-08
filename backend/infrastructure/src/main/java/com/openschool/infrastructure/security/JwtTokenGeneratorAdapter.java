@@ -15,6 +15,6 @@ public class JwtTokenGeneratorAdapter implements TokenGeneratorPort {
 
     @Override
     public String generateToken(Account user) {
-        return jwtProvider.generateToken(user.getId().toString(), user.getUsername());
+        return jwtProvider.generateToken(user.getIdentityId().toString(), user.getUsername());
     }
 }

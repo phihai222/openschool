@@ -29,12 +29,12 @@ public class JwtProvider {
     /**
      * Generate JWT token from userId and email.
      */
-    public String generateToken(String userId, String username) {
+    public String generateToken(String identityId, String username) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expirationInMs);
 
         return Jwts.builder()
-                .subject(userId)
+                .subject(identityId)
                 .claim("username", username)
                 .issuedAt(now)
                 .expiration(expiryDate)
