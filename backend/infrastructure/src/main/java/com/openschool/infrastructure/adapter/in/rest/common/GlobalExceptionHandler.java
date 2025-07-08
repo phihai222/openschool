@@ -1,5 +1,6 @@
 package com.openschool.infrastructure.adapter.in.rest.common;
 
+import com.openschool.identity.exception.DataNotFound;
 import com.openschool.identity.exception.InvalidCredentialsException;
 import com.openschool.identity.exception.UserAlreadyExistsException;
 import org.springframework.http.HttpStatus;
@@ -17,5 +18,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<String> handleRootUserExists(InvalidCredentialsException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(DataNotFound.class)
+    public ResponseEntity<String> handleRootUserExists(DataNotFound ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 }

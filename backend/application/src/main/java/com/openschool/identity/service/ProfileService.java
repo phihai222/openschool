@@ -1,7 +1,9 @@
 package com.openschool.identity.service;
 
 import com.openschool.domain.identity.model.Profile;
+import com.openschool.identity.exception.DataNotFound;
 import com.openschool.identity.exception.InvalidCredentialsException;
+import com.openschool.identity.port.in.GetCurrentUserProfileUseCase;
 import com.openschool.identity.port.in.UpdateProfileUseCase;
 import com.openschool.identity.port.in.command.UpdateProfileCommand;
 import com.openschool.identity.port.out.IdentityRepositoryPort;
@@ -12,7 +14,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @AllArgsConstructor
-public class UpdateProfileService implements UpdateProfileUseCase {
+public class ProfileService implements UpdateProfileUseCase, GetCurrentUserProfileUseCase {
     private final ProfileRepositoryPort profileRepository;
     private final IdentityRepositoryPort identityRepository;
 
@@ -39,5 +41,15 @@ public class UpdateProfileService implements UpdateProfileUseCase {
         profile = profileRepository.save(profile);
 
         return profile;
+    }
+
+    @Override
+    public Profile getCurrentUserProfile(UUID identityId) {
+        var profile = profileRepository.findByIdentityId(identityId);
+        if (profile.isEmpty()) {
+            throw new DataNotFound("Profile not found");
+        }
+
+        return profile.get();
     }
 }
