@@ -6,6 +6,7 @@ import com.openschool.identity.port.in.command.UpdateProfileCommand;
 import com.openschool.infrastructure.adapter.in.rest.profile.dto.UpdateProfileRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -17,10 +18,10 @@ public class ProfileController {
     private final UpdateProfileUseCase updateProfileUseCase;
 
     @PostMapping
-    public ResponseEntity<Profile> createProfile(@RequestBody UpdateProfileRequest payload) {
+    public ResponseEntity<Profile> createProfile(@RequestBody UpdateProfileRequest payload, Authentication authentication) {
         // Convert ProfileRequest to CreateProfileCommand
         UpdateProfileCommand command = UpdateProfileCommand.builder()
-                .identityId(UUID.randomUUID()) // TODO Get from token
+                .identityId(UUID.fromString((String) authentication.getPrincipal()))
                 .birthdate(payload.getBirthdate())
                 .firstName(payload.getFirstName())
                 .lastName(payload.getLastName())

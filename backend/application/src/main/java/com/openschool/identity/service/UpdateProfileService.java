@@ -8,6 +8,7 @@ import com.openschool.identity.port.out.IdentityRepositoryPort;
 import com.openschool.identity.port.out.ProfileRepositoryPort;
 import lombok.AllArgsConstructor;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -31,6 +32,8 @@ public class UpdateProfileService implements UpdateProfileUseCase {
                 .birthdate(command.getBirthdate())
                 .firstName(command.getFirstName())
                 .lastName(command.getLastName())
+                .createdAt(currentProfile.isEmpty() ? Instant.now() : currentProfile.get().getCreatedAt())
+                .updatedAt(Instant.now())
                 .build();
 
         profile = profileRepository.save(profile);

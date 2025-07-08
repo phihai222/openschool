@@ -21,6 +21,8 @@ public class ProfileRepositoryAdapter implements ProfileRepositoryPort {
                 .firstName(profile.getFirstName())
                 .lastName(profile.getLastName())
                 .birthdate(profile.getBirthdate())
+                .createdAt(profile.getCreatedAt())
+                .updatedAt(profile.getUpdatedAt())
                 .build();
     }
 
@@ -31,6 +33,8 @@ public class ProfileRepositoryAdapter implements ProfileRepositoryPort {
                 .firstName(entity.getFirstName())
                 .lastName(entity.getLastName())
                 .birthdate(entity.getBirthdate())
+                .createdAt(entity.getCreatedAt())
+                .updatedAt(entity.getUpdatedAt())
                 .build();
     }
 
