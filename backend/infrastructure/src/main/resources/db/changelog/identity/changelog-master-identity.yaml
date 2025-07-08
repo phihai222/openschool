@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
       file: db/changelog/identity/identity-001-create-user-credentials.sql
+  - include:
+      file: db/changelog/identity/identity-002-create-profile.sql

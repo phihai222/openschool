@@ -8,12 +8,10 @@ import lombok.*;
 import java.util.UUID;
 
 @Entity
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "identity")
 public class IdentityEntity {
     @Id

@@ -7,11 +7,10 @@ import lombok.*;
 import java.util.UUID;
 
 @Entity
-@Getter
-@Setter
+@Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Table(name = "account")
 public class AccountEntity {
     @Id
