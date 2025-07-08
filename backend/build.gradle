@@ -36,7 +36,6 @@ subprojects {
         annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
         testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
         testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-        testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
     }
 
     test {
