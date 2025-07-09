@@ -15,6 +15,24 @@ services:
     networks:
       - openschool-network
 
+# OpenSchool Backend Service docker-compose requirements
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: openschool-backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - openschool-network
+
 volumes:
   postgres_data:
 
