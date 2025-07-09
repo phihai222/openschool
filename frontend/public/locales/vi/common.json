@@ -1,0 +1,9 @@
+{
+  "welcome": "Xin chào, {{name}}!",
+  "logout": "Đăng xuất",
+  "error": {
+    "unknown": "Lỗi không xác định",
+    "required": "Trường {{field}} là bắt buộc",
+    "minLength": "Trường {{field}} phải có ít nhất {{min}} ký tự"
+  }
+}

@@ -1,0 +1,15 @@
+@use "../../../../style/breakpoint/breakpoints" as breakpoints;
+
+
+.mainContainer {
+  margin: 0 auto;
+  background: #c1c1c1;
+  width: 100dvw;
+  height: 100dvh;
+  overflow: hidden;
+
+  @include breakpoints.respond(('phone', 'tab-port')) {
+    max-width: 480px;
+  }
+}
+

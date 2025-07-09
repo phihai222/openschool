@@ -1,0 +1,70 @@
+@use "../../../../style/breakpoint/breakpoints" as breakpoints;
+
+.container {
+  height: fit-content;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+
+  /** ✅ Cái này mới quan trọng **/
+  padding: 4px 12px env(safe-area-inset-bottom, 0px);
+
+  z-index: 1;
+  border-top: 1px solid #ededed;
+  position: fixed;
+  bottom: 0; // ✅ đặt sát mép dưới
+  width: 100%;
+  max-width: 480px;
+
+  @include breakpoints.respond(('phone', 'tab-port', 'tab-land', 'desktop')) {
+    max-width: 480px;
+  }
+}
+
+.pwaIosPadding {
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 21px);
+}
+
+.navigateItem {
+  width: 100px;
+  height: 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  gap: 2px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  //padding-top: 4px;
+  //padding: 4px 4px 2px 4px;
+
+  &:hover {
+    cursor: pointer;
+    //background: #f1f1f1;
+    transition: ease-in 0.1s;
+  }
+}
+
+.icon {
+  height: 32px;
+  width: 32px;
+  text-align: center;
+  line-height: 32px;
+  font-size: 10px;
+  border: 1px solid #626262;
+}
+
+.navLinkText {
+  font-size: 12px;
+}
+
+.inActive {
+  color: #2b2d42;
+}
+
+.active {
+  //background: #d0d0d0;
+  color: dodgerblue;
+}

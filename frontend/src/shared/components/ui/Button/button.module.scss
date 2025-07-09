@@ -1,0 +1,23 @@
+.btn {
+  width: 100%;
+  padding: 12px 24px;
+  font-size: 16px;
+  box-shadow: 4px 4px 0 black;
+  color: #2b2d42;
+  font-weight: 500;
+  border: 1px solid #b4b4b4;
+  &:disabled {
+    opacity: .5;
+    pointer-events: none;
+  }
+}
+
+.btn-primary {
+  background-color: #fff;
+}
+
+.btn-secondary {
+  background-color: #b9b9b9;
+}
+
+

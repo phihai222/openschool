@@ -1,0 +1,16 @@
+@use "../../../../style/breakpoint/breakpoints" as breakpoints;
+@use "../../../../style/index" as styles;
+
+.authContainer {
+  width: 100dvw;
+  height: 100dvh;
+  margin: 0 auto;
+
+  @include breakpoints.respond(("phone", "tab-port", "tab-land", "desktop")) {
+    max-width: 480px;
+  }
+
+  @include breakpoints.respond("big-desktop") {
+    max-width: 100dvw;
+  }
+}
