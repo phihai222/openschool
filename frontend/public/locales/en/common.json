@@ -1,0 +1,9 @@
+{
+  "welcome": "Welcome, {{name}}!",
+  "logout": "Logout",
+  "error": {
+    "unknown": "An unknown error occurred",
+    "required": "{{field}} is required",
+    "minLength": "{{field}} must be at least {{min}} characters"
+  }
+}

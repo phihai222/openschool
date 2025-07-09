@@ -1,0 +1,13 @@
+// Khai báo biến toàn cục
+$primary-color: #0070f3;
+$secondary-color: #1db954;
+$font-size-base: 16px;
+$radius: 8px;
+
+
+// _variables.scss
+$primary: #eaeaea;
+
+:root {
+  --primary: #{$primary}; // inject SCSS var into CSS var
+}

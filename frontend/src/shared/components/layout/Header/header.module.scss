@@ -1,0 +1,58 @@
+@use "../../../../style/breakpoint/breakpoints" as breakpoints;
+
+.headerContainer {
+  height: 44px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  background: white;
+  width: 100%;
+
+  @include breakpoints.respond(('phone', 'tab-port', 'tab-land', 'desktop')) {
+    max-width: 480px;
+  }
+}
+
+.borderBottom {
+  border-bottom: 1px solid #e4e4e4;
+}
+
+.screenTitleContainer {
+  width: 180px;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.titleCenter {
+  text-align: center;
+}
+
+.titleLeft {
+  text-align: left;
+}
+
+
+
+.btnFn {
+  width: 120px;
+  display: inherit;
+}
+
+.btnLeft {
+  justify-content: flex-start;
+  background: none;
+  border: none;
+  color: #4075dc;
+  cursor: pointer;
+  &:hover {
+    color: #8cb0f3;
+  }
+}
+
+.btnRight {
+  justify-content: flex-end;
+}
