@@ -25,7 +25,12 @@ public class DebugController {
         }
     }
 
-    // Test Role permission
+    @PreAuthorize("hasRole('ROOT')")
+    @GetMapping("/api/debug-test-root-role")
+    public String debugTestRootRole(Authentication authentication) {
+        return "Hello Root, your ID is: " + authentication.getPrincipal();
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/api/debug-test-admin-role")
     public String debugTestAdminRole(Authentication authentication) {

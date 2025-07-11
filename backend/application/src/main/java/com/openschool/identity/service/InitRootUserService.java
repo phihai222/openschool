@@ -39,7 +39,7 @@ public class InitRootUserService implements InitRootUserUseCase {
         String passwordHash = passwordEncoder.encode(rawPassword);
 
         // Find Admin role from the repository
-        Role adminRole = roleRepository.getRoleByName("ADMIN")
+        Role adminRole = roleRepository.getRoleByName("ROOT")
                 .orElseThrow(() -> new IllegalStateException("Admin role not found"));
 
         // Create a new UserCredentials object and save it to the repository
