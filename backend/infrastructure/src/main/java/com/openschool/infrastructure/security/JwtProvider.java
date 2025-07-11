@@ -1,5 +1,6 @@
 package com.openschool.infrastructure.security;
 
+import com.openschool.domain.identity.model.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Component
 public class JwtProvider {
@@ -32,16 +35,15 @@ public class JwtProvider {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    /**
-     * Generate JWT token from userId and email.
-     */
-    public String generateToken(String identityId, String username) {
+    public String generateToken(String identityId, String username, Set<Role> roles) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expirationInMs);
-
+        // Extract role names
+        List<String> roleNames = roles == null ? List.of() : roles.stream().map(Role::getName).toList();
         return Jwts.builder()
                 .subject(identityId)
                 .claim("username", username)
+                .claim("roles", roleNames)
                 .issuedAt(now)
                 .expiration(expiryDate)
                 .signWith(key)
