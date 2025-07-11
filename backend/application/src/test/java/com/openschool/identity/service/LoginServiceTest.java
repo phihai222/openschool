@@ -31,12 +31,11 @@ class LoginServiceTest {
     void login_successful() {
         Account account = mock(Account.class);
         when(accountRepositoryPort.findByUsername("user")).thenReturn(Optional.of(account));
-        when(passwordEncoderPort.matches("pass", null)).thenReturn(true);
-        when(account.getPasswordHash()).thenReturn(null);
-        when(tokenGeneratorPort.generateToken(account)).thenReturn("token");
+        when(passwordEncoderPort.matches("pass", account.getPasswordHash())).thenReturn(true);
+        when(tokenGeneratorPort.generateToken(account)).thenReturn("token123");
 
         String token = loginService.login("user", "pass");
-        assertEquals("token", token);
+        assertEquals("token123", token);
     }
 
     @Test
@@ -49,9 +48,8 @@ class LoginServiceTest {
     void login_invalidPassword_throwsException() {
         Account account = mock(Account.class);
         when(accountRepositoryPort.findByUsername("user")).thenReturn(Optional.of(account));
-        when(account.getPasswordHash()).thenReturn("hash");
-        when(passwordEncoderPort.matches("pass", "hash")).thenReturn(false);
-        assertThrows(InvalidCredentialsException.class, () -> loginService.login("user", "pass"));
+        when(passwordEncoderPort.matches("wrongpass", account.getPasswordHash())).thenReturn(false);
+        assertThrows(InvalidCredentialsException.class, () -> loginService.login("user", "wrongpass"));
     }
 }
 
