@@ -4,6 +4,7 @@ import com.openschool.domain.identity.model.AccountType;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -25,4 +26,11 @@ public class AccountEntity {
 
     private String email;
 
+    @ManyToMany
+    @JoinTable(
+            name = "account_role",
+            joinColumns = @JoinColumn(name = "account_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<RoleEntity> roles;
 }

@@ -1,3 +1,7 @@
 databaseChangeLog:
   - include:
       file: db/changelog/account/account-001-create-account.sql
+  - include:
+      file: db/changelog/account/account-002-create-role-and-permission.sql
+  - include:
+      file: db/changelog/account/account-003-init-admin-role.sql

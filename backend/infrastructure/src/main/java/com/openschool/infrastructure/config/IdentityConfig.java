@@ -17,8 +17,8 @@ public class IdentityConfig {
     @Bean
     public InitRootUserUseCase initRootUserUseCase(IdentityRepositoryPort identityRepositoryPort,
                                                    AccountRepositoryPort accountRepositoryPort,
-                                                   PasswordEncoderPort passwordEncoder) {
-        return new InitRootUserService(identityRepositoryPort, accountRepositoryPort, passwordEncoder);
+                                                   PasswordEncoderPort passwordEncoder, RoleRepositoryPort roleRepositoryPort) {
+        return new InitRootUserService(identityRepositoryPort, accountRepositoryPort, passwordEncoder, roleRepositoryPort);
     }
 
     @Bean

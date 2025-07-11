@@ -1,4 +1,4 @@
-package com.openschool.infrastructure.adapter.out.persistence.identity.repository;
+package com.openschool.infrastructure.adapter.out.persistence.identity.repository.jpa;
 
 import com.openschool.infrastructure.adapter.out.persistence.identity.entity.AccountEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

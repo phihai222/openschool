@@ -5,19 +5,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.security.Permission;
 import java.util.Set;
 import java.util.UUID;
 
+@AllArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
 @Builder
-public class Account {
+public class Role {
     private UUID id;
-    private UUID identityId;
-    private AccountType accountType;
-    private Set<Role> roles;
-    private String email;
-    private String username;
-    private String passwordHash;
+    private String name;
+    private Set<Permission> permissions;
 }
