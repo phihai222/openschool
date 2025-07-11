@@ -28,7 +28,15 @@ public class InitRootUserService implements InitRootUserUseCase {
     public void initRoot(String username, String rawPassword) {
         // Check if the root user already exists
         if (accountRepository.findByUsername(username).isPresent()) {
-            throw new UserAlreadyExistsException();
+            throw new UserAlreadyExistsException("User existed");
+        }
+
+        // Check if any user already has the ROOT role
+        Role rootRole = roleRepository.getRoleByName("ROOT")
+                .orElseThrow(() -> new IllegalStateException("Admin role not found"));
+
+        if (accountRepository.existsByRoleName(rootRole.getName())) {
+            throw new UserAlreadyExistsException("Only one root user is allowed");
         }
 
         // Create a new Identity object
@@ -38,10 +46,6 @@ public class InitRootUserService implements InitRootUserUseCase {
         // Hash the password using the provided password encoder
         String passwordHash = passwordEncoder.encode(rawPassword);
 
-        // Find Admin role from the repository
-        Role adminRole = roleRepository.getRoleByName("ROOT")
-                .orElseThrow(() -> new IllegalStateException("Admin role not found"));
-
         // Create a new UserCredentials object and save it to the repository
         Account user = Account.builder()
                 .id(UUID.randomUUID())
@@ -49,7 +53,7 @@ public class InitRootUserService implements InitRootUserUseCase {
                 .username(username)
                 .passwordHash(passwordHash)
                 .accountType(AccountType.LOCAL)
-                .roles(Set.of(adminRole))
+                .roles(Set.of(rootRole))
                 .build();
 
         // Save the user to the account repository

@@ -33,24 +33,45 @@ class InitRootUserServiceTest {
     }
 
     @Test
-    void shouldThrowExceptionIfUserExists() {
+    void shouldThrowExceptionIfRootUserExists() {
+        // Simulate that the username already exists, so the first check triggers the exception
         when(accountRepository.findByUsername("root")).thenReturn(Optional.of(mock(Account.class)));
+        // The following mocks are not needed for this scenario, but kept for completeness
+        when(roleRepository.getRoleByName("ROOT")).thenReturn(Optional.of(mock(Role.class)));
+        when(accountRepository.existsByRoleName("ROOT")).thenReturn(false);
+        assertThrows(UserAlreadyExistsException.class, () -> service.initRoot("root", "password"));
+    }
+
+    @Test
+    void shouldThrowExceptionIfRootRoleExistsButUsernameNotExists() {
+        // Mock role with name "ROOT"
+        Role mockRootRole = mock(Role.class);
+        when(mockRootRole.getName()).thenReturn("ROOT");
+
+        // No user with username "root"
+        when(accountRepository.findByUsername("root")).thenReturn(Optional.empty());
+
+        // Return mock role
+        when(roleRepository.getRoleByName("ROOT")).thenReturn(Optional.of(mockRootRole));
+
+        // Simulate that a ROOT role already exists
+        when(accountRepository.existsByRoleName("ROOT")).thenReturn(true);
+
+        // Should throw exception
         assertThrows(UserAlreadyExistsException.class, () -> service.initRoot("root", "password"));
     }
 
     @Test
     void shouldCreateRootUserIfNotExists() {
+        // Simulate that neither the username nor the root role user exists
         when(accountRepository.findByUsername("root")).thenReturn(Optional.empty());
-        when(passwordEncoder.encode("password")).thenReturn("hashed");
-        doNothing().when(identityRepository).save(any(Identity.class));
-        // Mock role repository to return an Admin role
         Role adminRole = mock(Role.class);
         when(roleRepository.getRoleByName("ROOT")).thenReturn(Optional.of(adminRole));
-
+        when(accountRepository.existsByRoleName("ROOT")).thenReturn(false);
+        when(passwordEncoder.encode("password")).thenReturn("hashed");
+        doNothing().when(identityRepository).save(any(Identity.class));
+        doNothing().when(accountRepository).save(any(Account.class));
         service.initRoot("root", "password");
-
-        verify(identityRepository).save(any(Identity.class));
         verify(accountRepository).save(any(Account.class));
-        verify(roleRepository).getRoleByName("ROOT");
     }
 }

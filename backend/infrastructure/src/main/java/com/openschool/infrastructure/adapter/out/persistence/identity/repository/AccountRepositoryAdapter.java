@@ -6,6 +6,7 @@ import com.openschool.identity.port.out.AccountRepositoryPort;
 import com.openschool.infrastructure.adapter.out.persistence.identity.entity.AccountEntity;
 import com.openschool.infrastructure.adapter.out.persistence.identity.entity.RoleEntity;
 import com.openschool.infrastructure.adapter.out.persistence.identity.repository.jpa.JpaAccountRepository;
+import com.openschool.infrastructure.adapter.out.persistence.identity.repository.jpa.JpaAccountRoleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class AccountRepositoryAdapter implements AccountRepositoryPort {
     private final JpaAccountRepository jpaAccountRepository;
+    private final JpaAccountRoleRepository jpaAccountRoleRepository;
 
     @Override
     public Optional<Account> findByUsername(String username) {
@@ -52,5 +54,10 @@ public class AccountRepositoryAdapter implements AccountRepositoryPort {
                                 .build())
                         .collect(Collectors.toSet()))
                 .build());
+    }
+
+    @Override
+    public boolean existsByRoleName(String roleName) {
+        return jpaAccountRoleRepository.existsByRoleName(roleName);
     }
 }
