@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -79,8 +80,14 @@ public class JwtProvider {
                 .getPayload();
 
         String username = claims.getSubject();
+        // Extract roles from JWT claims
+        List<String> roles = claims.get("roles", List.class);
 
-        return new UsernamePasswordAuthenticationToken(username, null, java.util.Collections.emptyList());
+        // Map roles to SimpleGrantedAuthority
+        List<SimpleGrantedAuthority> authorities = roles == null ? List.of() :
+                roles.stream().map(role -> new SimpleGrantedAuthority("ROLE_" + role)).toList();
+
+        return new UsernamePasswordAuthenticationToken(username, null, authorities);
     }
 
 }
