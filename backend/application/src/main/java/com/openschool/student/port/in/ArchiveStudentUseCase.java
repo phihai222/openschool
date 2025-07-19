@@ -1,4 +1,4 @@
-package com.openschool.student.port;
+package com.openschool.student.port.in;
 
 public interface ArchiveStudentUseCase {
 }
