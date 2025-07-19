@@ -1,0 +1,17 @@
+@use "reset" as reset;
+
+:root {
+  --bg-color: white;
+  --text-color: black;
+}
+
+.dark {
+  --bg-color: #1a1a1a;
+  --text-color: #eee;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease;
+}
