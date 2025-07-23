@@ -1,5 +1,6 @@
 package com.openschool.infrastructure.adapter.in.rest.common;
 
+import com.openschool.department.exception.DepartmentException;
 import com.openschool.identity.exception.DataNotFound;
 import com.openschool.identity.exception.InvalidCredentialsException;
 import com.openschool.identity.exception.UserAlreadyExistsException;
@@ -23,5 +24,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataNotFound.class)
     public ResponseEntity<String> handleRootUserExists(DataNotFound ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(DepartmentException.class)
+    public ResponseEntity<String> handleDepartmentException(DepartmentException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }
