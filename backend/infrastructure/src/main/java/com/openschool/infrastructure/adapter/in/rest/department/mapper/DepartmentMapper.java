@@ -60,8 +60,6 @@ public class DepartmentMapper {
                 .departmentCode(department.getDepartmentCode())
                 .departmentEmail(department.getDepartmentEmail())
                 .departmentPhone(department.getDepartmentPhone())
-                .createdAt(Instant.now())
-                .updatedAt(Instant.now())
                 .build();
     }
 
@@ -92,6 +90,7 @@ public class DepartmentMapper {
         entity.setDepartmentCode(department.getDepartmentCode() != null ? department.getDepartmentCode() : entity.getDepartmentCode());
         entity.setDepartmentEmail(department.getDepartmentEmail() != null ? department.getDepartmentEmail() : entity.getDepartmentEmail());
         entity.setDepartmentPhone(department.getDepartmentPhone() != null ? department.getDepartmentPhone() : entity.getDepartmentPhone());
+        entity.setUpdatedAt(Instant.now());
         return entity;
     }
 

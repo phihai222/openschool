@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -25,7 +26,8 @@ public class DepartmentController {
     @PostMapping
     public ResponseEntity<DepartmentResponseDto> createDepartment(@RequestBody DepartmentRequestDto createDepartmentDto) {
         Department department = departmentService.createDepartment(dtoToCreatedDepartmentCommand(createDepartmentDto));
-        return ResponseEntity.ok(toDepartmentResponseDto(department));
+        return ResponseEntity.created(URI.create("/api/departments/" + department.getDepartmentId()))
+                .body(toDepartmentResponseDto(department));
 
     }
 
