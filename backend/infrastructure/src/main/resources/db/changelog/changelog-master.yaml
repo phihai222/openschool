@@ -5,3 +5,5 @@ databaseChangeLog:
       file: db/changelog/account/changelog-master-user.yaml
   - include:
       file: db/changelog/department/changelog-master-department.yaml
+  - include:
+      file: db/changelog/systemsetup/changelog-master-system-setup.yaml
