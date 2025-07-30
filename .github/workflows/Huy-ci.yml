@@ -1,0 +1,46 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
+
+#Purpose
+name: Run test on push
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+#run in linux
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      name: checkout code
+      
+    - name: set up JDK 
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x backend/gradlew
+
+    - name: Build and run tests
+      run: cd backend && ./gradlew :application:test
+      
+    - name: Upload HTML Test Report
+      uses: actions/upload-artifact@v4
+      with:
+            name: html-test-report
+            path: backend/application/build/reports/tests/test
+
+    - name: Publish Unit Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      with:
+            files: '**/build/test-results/test/TEST-*.xml'        
+
