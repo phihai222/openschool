@@ -39,8 +39,3 @@ jobs:
             name: html-test-report
             path: backend/application/build/reports/tests/test
 
-    - name: Publish Unit Test Results
-      uses: EnricoMi/publish-unit-test-result-action@v2
-      with:
-            files: '**/build/test-results/test/TEST-*.xml'        
-
