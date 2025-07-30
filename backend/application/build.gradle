@@ -19,3 +19,13 @@ dependencies {
     testImplementation 'org.mockito:mockito-junit-jupiter:5.14.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }
+
+test {
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "full"
+        showCauses true
+        showExceptions true
+        showStackTraces true
+    }
+}
