@@ -44,3 +44,9 @@ metadata/
 
 # Others
 node_modules/
+caches/
+wrapper/
+native/
+daemon/
+out/
+.tmp/
