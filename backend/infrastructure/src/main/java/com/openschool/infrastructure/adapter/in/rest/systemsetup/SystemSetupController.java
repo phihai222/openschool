@@ -22,7 +22,7 @@ public class SystemSetupController {
         this.setupAdminUseCase = setupAdminUseCase;
     }
 
-    @GetMapping
+    @GetMapping("/status")
     public ResponseEntity<SystemSetupStatusResponse> getSystemSetupStatus() {
         var res = getSystemSetupStatusUseCase.getSystemSetupStatus();
         return ResponseEntity.ok(SystemSetupDtoMapper.toResponse(res));
