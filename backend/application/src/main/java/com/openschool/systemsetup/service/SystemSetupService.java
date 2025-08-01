@@ -35,7 +35,6 @@ public class SystemSetupService implements GetSystemSetupStatusUseCase, SetupAdm
         return status.get();
     }
 
-
     @Override
     @Transactional
     public SystemSetupStatus createAdminUser(CreateAdminCommand command) {
