@@ -2,7 +2,9 @@ package com.openschool.infrastructure.adapter.in.rest.systemsetup.mapper;
 
 import com.openschool.domain.systemsetup.SystemSetupStatus;
 import com.openschool.domain.systemsetup.SetupStep;
+import com.openschool.infrastructure.adapter.in.rest.systemsetup.dto.CreateAdminRequest;
 import com.openschool.infrastructure.adapter.in.rest.systemsetup.dto.SystemSetupStatusResponse;
+import com.openschool.systemsetup.port.in.command.CreateAdminCommand;
 
 public class SystemSetupDtoMapper {
     public static SystemSetupStatusResponse toResponse(SystemSetupStatus domain) {
@@ -17,5 +19,14 @@ public class SystemSetupDtoMapper {
             domain.isCompleted(),
             stepsDto
         );
+    }
+
+    public static CreateAdminCommand toCommand(CreateAdminRequest request) {
+        return CreateAdminCommand.builder()
+                .username(request.getUsername())
+                .password(request.getPassword())
+                .fullName(request.getFullName())
+                .email(request.getEmail())
+                .build();
     }
 }

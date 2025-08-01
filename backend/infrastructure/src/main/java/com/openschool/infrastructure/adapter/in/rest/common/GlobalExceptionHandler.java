@@ -4,6 +4,7 @@ import com.openschool.department.exception.DepartmentException;
 import com.openschool.identity.exception.DataNotFound;
 import com.openschool.identity.exception.InvalidCredentialsException;
 import com.openschool.identity.exception.UserAlreadyExistsException;
+import com.openschool.systemsetup.exeption.ForbiddenSetup;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,5 +30,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DepartmentException.class)
     public ResponseEntity<String> handleDepartmentException(DepartmentException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ForbiddenSetup.class)
+    public ResponseEntity<String> handleForbiddenSetup(ForbiddenSetup ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
     }
 }
