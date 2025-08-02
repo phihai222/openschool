@@ -3,9 +3,12 @@ package com.openschool.systemsetup.service;
 import com.openschool.domain.systemsetup.SetupStep;
 import com.openschool.domain.systemsetup.SystemSetupStatus;
 import com.openschool.identity.port.in.InitRootUserUseCase;
+import com.openschool.school.port.in.CreateSchoolUseCase;
+import com.openschool.school.port.in.command.CreateSchoolCommand;
 import com.openschool.systemsetup.exeption.ForbiddenSetup;
 import com.openschool.systemsetup.port.in.GetSystemSetupStatusUseCase;
 import com.openschool.systemsetup.port.in.SetupAdminUseCase;
+import com.openschool.systemsetup.port.in.SetupSchoolProfileUseCase;
 import com.openschool.systemsetup.port.in.UpdateSystemStatusUseCase;
 import com.openschool.systemsetup.port.in.command.CreateAdminCommand;
 import com.openschool.systemsetup.port.out.SystemSetupRepositoryPort;
@@ -16,10 +19,15 @@ import java.util.Optional;
 import java.util.UUID;
 
 @AllArgsConstructor
-public class SystemSetupService implements GetSystemSetupStatusUseCase, SetupAdminUseCase, UpdateSystemStatusUseCase {
+public class SystemSetupService implements
+        GetSystemSetupStatusUseCase,
+        SetupAdminUseCase,
+        UpdateSystemStatusUseCase,
+        SetupSchoolProfileUseCase {
     private final UUID id = UUID.fromString("0c09669c-0e92-487b-8e33-df11ec6d8042");
     private final SystemSetupRepositoryPort systemSetupRepository;
     private final InitRootUserUseCase initRootUserUseCase;
+    private final CreateSchoolUseCase createSchoolUseCase;
 
     @Override
     public SystemSetupStatus getSystemSetupStatus() {
@@ -58,5 +66,17 @@ public class SystemSetupService implements GetSystemSetupStatusUseCase, SetupAdm
     public SystemSetupStatus updateSystemStatus(SystemSetupStatus status) {
         return systemSetupRepository.saveSystemStatus(status)
                 .orElseThrow(() -> new RuntimeException("Failed to update system setup status"));
+    }
+
+    @Override
+    public SystemSetupStatus createSchoolProfile(CreateSchoolCommand command) {
+        SystemSetupStatus currentStatus = getSystemSetupStatus();
+
+        if (currentStatus.getCurrentStep() != SetupStep.CREATE_SCHOOL) {
+            throw new ForbiddenSetup("Cannot create school profile at this step: " + currentStatus.getCurrentStep());
+        }
+        createSchoolUseCase.create(command);
+        currentStatus.markStepCompleted(SetupStep.CREATE_SCHOOL);
+        return this.updateSystemStatus(currentStatus);
     }
 }

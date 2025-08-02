@@ -1,8 +1,10 @@
 package com.openschool.infrastructure.config;
 
 import com.openschool.identity.port.in.InitRootUserUseCase;
+import com.openschool.school.port.in.CreateSchoolUseCase;
 import com.openschool.systemsetup.port.in.GetSystemSetupStatusUseCase;
 import com.openschool.systemsetup.port.in.SetupAdminUseCase;
+import com.openschool.systemsetup.port.in.SetupSchoolProfileUseCase;
 import com.openschool.systemsetup.port.out.SystemSetupRepositoryPort;
 import com.openschool.systemsetup.service.SystemSetupService;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,8 +16,9 @@ public class SystemSetupConfig {
     @Bean
     public SystemSetupService systemSetupService(
             SystemSetupRepositoryPort systemSetupRepositoryPort,
-            InitRootUserUseCase initRootUserUseCase) {
-        return new SystemSetupService(systemSetupRepositoryPort, initRootUserUseCase);
+            InitRootUserUseCase initRootUserUseCase,
+            @Qualifier("createSchoolUseCase") CreateSchoolUseCase setupSchoolProfileUseCase) {
+        return new SystemSetupService(systemSetupRepositoryPort, initRootUserUseCase, setupSchoolProfileUseCase);
     }
 
     @Bean
@@ -31,6 +34,12 @@ public class SystemSetupConfig {
     public SetupAdminUseCase setupAdminUseCase(
             SystemSetupService systemSetupService
     ) {
+        return systemSetupService;
+    }
+
+    @Bean
+    @Qualifier("setupSchoolProfileUseCase")
+    public SetupSchoolProfileUseCase setupSchoolProfileUseCase(SystemSetupService systemSetupService) {
         return systemSetupService;
     }
 }

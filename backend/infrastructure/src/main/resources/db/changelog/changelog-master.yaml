@@ -7,3 +7,5 @@ databaseChangeLog:
       file: db/changelog/department/changelog-master-department.yaml
   - include:
       file: db/changelog/systemsetup/changelog-master-system-setup.yaml
+  - include:
+      file: db/changelog/school/changelog-master-school.yaml
