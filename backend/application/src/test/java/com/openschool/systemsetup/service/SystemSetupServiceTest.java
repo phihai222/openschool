@@ -3,6 +3,8 @@ package com.openschool.systemsetup.service;
 import com.openschool.domain.systemsetup.SetupStep;
 import com.openschool.domain.systemsetup.SystemSetupStatus;
 import com.openschool.identity.port.in.InitRootUserUseCase;
+import com.openschool.school.port.in.CreateSchoolUseCase;
+import com.openschool.school.port.in.command.CreateSchoolCommand;
 import com.openschool.systemsetup.exeption.ForbiddenSetup;
 import com.openschool.systemsetup.port.in.command.CreateAdminCommand;
 import com.openschool.systemsetup.port.out.SystemSetupRepositoryPort;
@@ -26,6 +28,9 @@ class SystemSetupServiceTest {
     @Mock
     private InitRootUserUseCase initRootUserUseCase;
 
+    @Mock
+    private CreateSchoolUseCase createSchoolUseCase;
+
     @InjectMocks
     private SystemSetupService systemSetupService;
 
@@ -34,7 +39,7 @@ class SystemSetupServiceTest {
     @BeforeEach
     void setUp() {
         try (var ignored = MockitoAnnotations.openMocks(this)) {
-            systemSetupService = new SystemSetupService(systemSetupRepository, initRootUserUseCase);
+            systemSetupService = new SystemSetupService(systemSetupRepository, initRootUserUseCase, createSchoolUseCase);
         } catch (Exception e) {
             throw new RuntimeException("Failed to initialize mocks", e);
         }
@@ -96,6 +101,39 @@ class SystemSetupServiceTest {
 
         assertEquals("Cannot create admin user at this step: CREATE_SCHOOL", exception.getMessage());
         verify(initRootUserUseCase, never()).initRoot(anyString(), anyString());
+    }
+
+    @Test
+    void testCreateSchoolProfile_WhenStepIsValid() {
+        SystemSetupStatus mockStatus = new SystemSetupStatus();
+        mockStatus.setId(id);
+        mockStatus.setCurrentStep(SetupStep.CREATE_SCHOOL);
+        when(systemSetupRepository.getSystemSetupStatus(id)).thenReturn(Optional.of(mockStatus));
+        when(systemSetupRepository.saveSystemStatus(any(SystemSetupStatus.class))).thenAnswer(invocation -> Optional.of(invocation.getArgument(0)));
+
+        CreateSchoolCommand command = mock(CreateSchoolCommand.class);
+
+        SystemSetupStatus result = systemSetupService.createSchoolProfile(command);
+
+        assertNotNull(result);
+        assertTrue(result.getSteps().get(SetupStep.CREATE_SCHOOL));
+        verify(createSchoolUseCase, times(1)).create(command);
+        verify(systemSetupRepository, times(1)).saveSystemStatus(any(SystemSetupStatus.class));
+    }
+
+    @Test
+    void testCreateSchoolProfile_WhenStepIsInvalid() {
+        SystemSetupStatus mockStatus = new SystemSetupStatus();
+        mockStatus.setId(id);
+        mockStatus.setCurrentStep(SetupStep.CREATE_ADMIN_USER);
+        when(systemSetupRepository.getSystemSetupStatus(id)).thenReturn(Optional.of(mockStatus));
+
+        CreateSchoolCommand command = mock(CreateSchoolCommand.class);
+
+        ForbiddenSetup exception = assertThrows(ForbiddenSetup.class, () -> systemSetupService.createSchoolProfile(command));
+
+        assertEquals("Cannot create school profile at this step: CREATE_ADMIN_USER", exception.getMessage());
+        verify(createSchoolUseCase, never()).create(any());
     }
 
     @Test
