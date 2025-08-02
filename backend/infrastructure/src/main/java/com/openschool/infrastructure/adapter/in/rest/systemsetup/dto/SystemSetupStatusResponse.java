@@ -30,6 +30,5 @@ public class SystemSetupStatusResponse {
             this.academicYearCreated = academicYearCreated;
             this.gradeCreated = gradeCreated;
         }
-
     }
 }

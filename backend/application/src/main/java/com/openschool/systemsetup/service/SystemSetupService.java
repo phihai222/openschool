@@ -1,15 +1,14 @@
 package com.openschool.systemsetup.service;
 
+import com.openschool.academic.port.in.CreateAcademicYearUseCase;
+import com.openschool.academic.port.in.command.CreateAcademicYearCommand;
 import com.openschool.domain.systemsetup.SetupStep;
 import com.openschool.domain.systemsetup.SystemSetupStatus;
 import com.openschool.identity.port.in.InitRootUserUseCase;
 import com.openschool.school.port.in.CreateSchoolUseCase;
 import com.openschool.school.port.in.command.CreateSchoolCommand;
 import com.openschool.systemsetup.exeption.ForbiddenSetup;
-import com.openschool.systemsetup.port.in.GetSystemSetupStatusUseCase;
-import com.openschool.systemsetup.port.in.SetupAdminUseCase;
-import com.openschool.systemsetup.port.in.SetupSchoolProfileUseCase;
-import com.openschool.systemsetup.port.in.UpdateSystemStatusUseCase;
+import com.openschool.systemsetup.port.in.*;
 import com.openschool.systemsetup.port.in.command.CreateAdminCommand;
 import com.openschool.systemsetup.port.out.SystemSetupRepositoryPort;
 import jakarta.transaction.Transactional;
@@ -23,17 +22,19 @@ public class SystemSetupService implements
         GetSystemSetupStatusUseCase,
         SetupAdminUseCase,
         UpdateSystemStatusUseCase,
-        SetupSchoolProfileUseCase {
+        SetupSchoolProfileUseCase,
+        SetupAcademicYearUseCase {
     private final UUID id = UUID.fromString("0c09669c-0e92-487b-8e33-df11ec6d8042");
     private final SystemSetupRepositoryPort systemSetupRepository;
     private final InitRootUserUseCase initRootUserUseCase;
     private final CreateSchoolUseCase createSchoolUseCase;
+    private final CreateAcademicYearUseCase createAcademicYearUseCase;
 
     @Override
     public SystemSetupStatus getSystemSetupStatus() {
         Optional<SystemSetupStatus> status = systemSetupRepository.getSystemSetupStatus(id);
 
-        if(status.isEmpty()) {
+        if (status.isEmpty()) {
             SystemSetupStatus initialStatus = new SystemSetupStatus();
             initialStatus.setId(id);
             return systemSetupRepository.saveSystemStatus(initialStatus)
@@ -77,6 +78,21 @@ public class SystemSetupService implements
         }
         createSchoolUseCase.create(command);
         currentStatus.markStepCompleted(SetupStep.CREATE_SCHOOL);
+        return this.updateSystemStatus(currentStatus);
+    }
+
+
+    @Override
+    public SystemSetupStatus create(CreateAcademicYearCommand command) {
+        SystemSetupStatus currentStatus = getSystemSetupStatus();
+
+        if (currentStatus.getCurrentStep() != SetupStep.CREATE_ACADEMIC_YEAR) {
+            throw new ForbiddenSetup("Cannot create academic year at this step: " + currentStatus.getCurrentStep());
+        }
+
+        createAcademicYearUseCase.create(command);
+        currentStatus.markStepCompleted(SetupStep.CREATE_ACADEMIC_YEAR);
+
         return this.updateSystemStatus(currentStatus);
     }
 }

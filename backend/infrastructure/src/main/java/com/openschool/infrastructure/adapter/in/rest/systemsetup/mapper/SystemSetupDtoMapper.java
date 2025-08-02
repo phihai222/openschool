@@ -7,6 +7,8 @@ import com.openschool.infrastructure.adapter.in.rest.systemsetup.dto.CreateSchoo
 import com.openschool.infrastructure.adapter.in.rest.systemsetup.dto.SystemSetupStatusResponse;
 import com.openschool.school.port.in.command.CreateSchoolCommand;
 import com.openschool.systemsetup.port.in.command.CreateAdminCommand;
+import com.openschool.infrastructure.adapter.in.rest.systemsetup.dto.CreateAcademicYearRequest;
+import com.openschool.academic.port.in.command.CreateAcademicYearCommand;
 
 public class SystemSetupDtoMapper {
     public static SystemSetupStatusResponse toResponse(SystemSetupStatus domain) {
@@ -43,5 +45,16 @@ public class SystemSetupDtoMapper {
                 .defaultLanguage(request.getDefaultLanguage())
                 .timezone(request.getTimezone())
                 .build();
+    }
+
+    public static CreateAcademicYearCommand toCommand(CreateAcademicYearRequest request) {
+        CreateAcademicYearCommand command = new CreateAcademicYearCommand();
+        command.setCode(request.getCode());
+        command.setName(request.getName());
+        command.setStartDate(request.getStartDate());
+        command.setEndDate(request.getEndDate());
+        command.setStatus(request.getStatus());
+        command.setSemesters(request.getSemesters());
+        return command;
     }
 }

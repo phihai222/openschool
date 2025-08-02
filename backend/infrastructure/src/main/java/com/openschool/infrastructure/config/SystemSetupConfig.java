@@ -1,8 +1,10 @@
 package com.openschool.infrastructure.config;
 
+import com.openschool.academic.port.in.CreateAcademicYearUseCase;
 import com.openschool.identity.port.in.InitRootUserUseCase;
 import com.openschool.school.port.in.CreateSchoolUseCase;
 import com.openschool.systemsetup.port.in.GetSystemSetupStatusUseCase;
+import com.openschool.systemsetup.port.in.SetupAcademicYearUseCase;
 import com.openschool.systemsetup.port.in.SetupAdminUseCase;
 import com.openschool.systemsetup.port.in.SetupSchoolProfileUseCase;
 import com.openschool.systemsetup.port.out.SystemSetupRepositoryPort;
@@ -17,8 +19,13 @@ public class SystemSetupConfig {
     public SystemSetupService systemSetupService(
             SystemSetupRepositoryPort systemSetupRepositoryPort,
             InitRootUserUseCase initRootUserUseCase,
-            @Qualifier("createSchoolUseCase") CreateSchoolUseCase setupSchoolProfileUseCase) {
-        return new SystemSetupService(systemSetupRepositoryPort, initRootUserUseCase, setupSchoolProfileUseCase);
+            @Qualifier("createSchoolUseCase") CreateSchoolUseCase setupSchoolProfileUseCase,
+            @Qualifier("createAcademicYearUseCase") CreateAcademicYearUseCase setupAcademicYearUseCase) {
+        return new SystemSetupService(
+                systemSetupRepositoryPort,
+                initRootUserUseCase,
+                setupSchoolProfileUseCase,
+                setupAcademicYearUseCase);
     }
 
     @Bean
@@ -40,6 +47,12 @@ public class SystemSetupConfig {
     @Bean
     @Qualifier("setupSchoolProfileUseCase")
     public SetupSchoolProfileUseCase setupSchoolProfileUseCase(SystemSetupService systemSetupService) {
+        return systemSetupService;
+    }
+
+    @Bean
+    @Qualifier("setupAcademicYearUseCase")
+    public SetupAcademicYearUseCase setupAcademicYearUseCase(SystemSetupService systemSetupService) {
         return systemSetupService;
     }
 }
