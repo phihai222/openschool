@@ -1,5 +1,7 @@
 package com.openschool.systemsetup.service;
 
+import com.openschool.academic.port.in.CreateAcademicYearUseCase;
+import com.openschool.academic.port.in.command.CreateAcademicYearCommand;
 import com.openschool.domain.systemsetup.SetupStep;
 import com.openschool.domain.systemsetup.SystemSetupStatus;
 import com.openschool.identity.port.in.InitRootUserUseCase;
@@ -31,6 +33,9 @@ class SystemSetupServiceTest {
     @Mock
     private CreateSchoolUseCase createSchoolUseCase;
 
+    @Mock
+    private CreateAcademicYearUseCase createAcademicYearUseCase;
+
     @InjectMocks
     private SystemSetupService systemSetupService;
 
@@ -39,7 +44,7 @@ class SystemSetupServiceTest {
     @BeforeEach
     void setUp() {
         try (var ignored = MockitoAnnotations.openMocks(this)) {
-            systemSetupService = new SystemSetupService(systemSetupRepository, initRootUserUseCase, createSchoolUseCase);
+            systemSetupService = new SystemSetupService(systemSetupRepository, initRootUserUseCase, createSchoolUseCase, createAcademicYearUseCase);
         } catch (Exception e) {
             throw new RuntimeException("Failed to initialize mocks", e);
         }
@@ -134,6 +139,39 @@ class SystemSetupServiceTest {
 
         assertEquals("Cannot create school profile at this step: CREATE_ADMIN_USER", exception.getMessage());
         verify(createSchoolUseCase, never()).create(any());
+    }
+
+    @Test
+    void testCreateAcademicYear_WhenStepIsValid() {
+        SystemSetupStatus mockStatus = new SystemSetupStatus();
+        mockStatus.setId(id);
+        mockStatus.setCurrentStep(SetupStep.CREATE_ACADEMIC_YEAR);
+        when(systemSetupRepository.getSystemSetupStatus(id)).thenReturn(Optional.of(mockStatus));
+        when(systemSetupRepository.saveSystemStatus(any(SystemSetupStatus.class))).thenAnswer(invocation -> Optional.of(invocation.getArgument(0)));
+
+        CreateAcademicYearCommand command = mock(CreateAcademicYearCommand.class);
+
+        SystemSetupStatus result = systemSetupService.create(command);
+
+        assertNotNull(result);
+        assertTrue(result.getSteps().get(SetupStep.CREATE_ACADEMIC_YEAR));
+        verify(createAcademicYearUseCase, times(1)).create(command);
+        verify(systemSetupRepository, times(1)).saveSystemStatus(any(SystemSetupStatus.class));
+    }
+
+    @Test
+    void testCreateAcademicYear_WhenStepIsInvalid() {
+        SystemSetupStatus mockStatus = new SystemSetupStatus();
+        mockStatus.setId(id);
+        mockStatus.setCurrentStep(SetupStep.CREATE_SCHOOL);
+        when(systemSetupRepository.getSystemSetupStatus(id)).thenReturn(Optional.of(mockStatus));
+
+        CreateAcademicYearCommand command = mock(CreateAcademicYearCommand.class);
+
+        ForbiddenSetup exception = assertThrows(ForbiddenSetup.class, () -> systemSetupService.create(command));
+
+        assertEquals("Cannot create academic year at this step: CREATE_SCHOOL", exception.getMessage());
+        verify(createAcademicYearUseCase, never()).create(any());
     }
 
     @Test
