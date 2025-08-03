@@ -1,5 +1,6 @@
 package com.openschool.infrastructure.adapter.in.rest.common;
 
+import com.openschool.common.exception.CustomerException;
 import com.openschool.department.exception.DepartmentException;
 import com.openschool.identity.exception.DataNotFound;
 import com.openschool.identity.exception.InvalidCredentialsException;
@@ -29,6 +30,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DepartmentException.class)
     public ResponseEntity<String> handleDepartmentException(DepartmentException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(CustomerException.class)
+    public ResponseEntity<String> handleCustomerException(CustomerException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
