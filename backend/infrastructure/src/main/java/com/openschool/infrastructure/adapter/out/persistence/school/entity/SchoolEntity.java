@@ -30,6 +30,12 @@ public class SchoolEntity {
     private String defaultLanguage;
     private String timezone;
 
+    public static SchoolEntity referenceOnly(UUID id) {
+        SchoolEntity entity = new SchoolEntity();
+        entity.setId(id);
+        return entity;
+    }
+
     public School toDomain() {
         return School.builder()
                 .id(this.id)

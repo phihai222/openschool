@@ -11,3 +11,5 @@ databaseChangeLog:
       file: db/changelog/school/changelog-master-school.yaml
   - include:
       file: db/changelog/academic/changelog-master-academic.yaml
+  - include:
+      file: db/changelog/grade/changelog-master-grade.yaml
