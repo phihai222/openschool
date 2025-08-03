@@ -2,12 +2,10 @@ package com.openschool.infrastructure.adapter.in.rest.systemsetup.mapper;
 
 import com.openschool.domain.systemsetup.SystemSetupStatus;
 import com.openschool.domain.systemsetup.SetupStep;
-import com.openschool.infrastructure.adapter.in.rest.systemsetup.dto.CreateAdminRequest;
-import com.openschool.infrastructure.adapter.in.rest.systemsetup.dto.CreateSchoolRequest;
-import com.openschool.infrastructure.adapter.in.rest.systemsetup.dto.SystemSetupStatusResponse;
+import com.openschool.grade.port.in.command.CreateGradeCommand;
+import com.openschool.infrastructure.adapter.in.rest.systemsetup.dto.*;
 import com.openschool.school.port.in.command.CreateSchoolCommand;
 import com.openschool.systemsetup.port.in.command.CreateAdminCommand;
-import com.openschool.infrastructure.adapter.in.rest.systemsetup.dto.CreateAcademicYearRequest;
 import com.openschool.academic.port.in.command.CreateAcademicYearCommand;
 
 public class SystemSetupDtoMapper {
@@ -56,5 +54,19 @@ public class SystemSetupDtoMapper {
         command.setStatus(request.getStatus());
         command.setSemesters(request.getSemesters());
         return command;
+    }
+
+    public static CreateGradeCommand toCommand(CreateGradeRequest request) {
+        return CreateGradeCommand.builder()
+                .name(request.getName())
+                .code(request.getCode())
+                .allowClass(request.isAllowClass())
+                .level(request.getLevel())
+                .minAge(request.getMinAge())
+                .maxAge(request.getMaxAge())
+                .displayOrder(request.getDisplayOrder())
+                .status(request.getStatus())
+                .schoolId(request.getSchoolId())
+                .build();
     }
 }

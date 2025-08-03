@@ -1,12 +1,10 @@
 package com.openschool.infrastructure.config;
 
 import com.openschool.academic.port.in.CreateAcademicYearUseCase;
+import com.openschool.grade.port.in.CreateGradeUseCase;
 import com.openschool.identity.port.in.InitRootUserUseCase;
 import com.openschool.school.port.in.CreateSchoolUseCase;
-import com.openschool.systemsetup.port.in.GetSystemSetupStatusUseCase;
-import com.openschool.systemsetup.port.in.SetupAcademicYearUseCase;
-import com.openschool.systemsetup.port.in.SetupAdminUseCase;
-import com.openschool.systemsetup.port.in.SetupSchoolProfileUseCase;
+import com.openschool.systemsetup.port.in.*;
 import com.openschool.systemsetup.port.out.SystemSetupRepositoryPort;
 import com.openschool.systemsetup.service.SystemSetupService;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,12 +18,14 @@ public class SystemSetupConfig {
             SystemSetupRepositoryPort systemSetupRepositoryPort,
             InitRootUserUseCase initRootUserUseCase,
             @Qualifier("createSchoolUseCase") CreateSchoolUseCase setupSchoolProfileUseCase,
-            @Qualifier("createAcademicYearUseCase") CreateAcademicYearUseCase setupAcademicYearUseCase) {
+            @Qualifier("createAcademicYearUseCase") CreateAcademicYearUseCase setupAcademicYearUseCase,
+            @Qualifier("createGradeUseCase") CreateGradeUseCase createGradeUseCase) {
         return new SystemSetupService(
                 systemSetupRepositoryPort,
                 initRootUserUseCase,
                 setupSchoolProfileUseCase,
-                setupAcademicYearUseCase);
+                setupAcademicYearUseCase,
+                createGradeUseCase);
     }
 
     @Bean
@@ -53,6 +53,12 @@ public class SystemSetupConfig {
     @Bean
     @Qualifier("setupAcademicYearUseCase")
     public SetupAcademicYearUseCase setupAcademicYearUseCase(SystemSetupService systemSetupService) {
+        return systemSetupService;
+    }
+
+    @Bean
+    @Qualifier("setupGradeUseCase")
+    public SetupGradeUseCase setupGradeUseCase(SystemSetupService systemSetupService) {
         return systemSetupService;
     }
 }

@@ -4,6 +4,8 @@ import com.openschool.academic.port.in.CreateAcademicYearUseCase;
 import com.openschool.academic.port.in.command.CreateAcademicYearCommand;
 import com.openschool.domain.systemsetup.SetupStep;
 import com.openschool.domain.systemsetup.SystemSetupStatus;
+import com.openschool.grade.port.in.CreateGradeUseCase;
+import com.openschool.grade.port.in.command.CreateGradeCommand;
 import com.openschool.identity.port.in.InitRootUserUseCase;
 import com.openschool.school.port.in.CreateSchoolUseCase;
 import com.openschool.school.port.in.command.CreateSchoolCommand;
@@ -14,6 +16,7 @@ import com.openschool.systemsetup.port.out.SystemSetupRepositoryPort;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,12 +26,14 @@ public class SystemSetupService implements
         SetupAdminUseCase,
         UpdateSystemStatusUseCase,
         SetupSchoolProfileUseCase,
-        SetupAcademicYearUseCase {
+        SetupAcademicYearUseCase,
+        SetupGradeUseCase {
     private final UUID id = UUID.fromString("0c09669c-0e92-487b-8e33-df11ec6d8042");
     private final SystemSetupRepositoryPort systemSetupRepository;
     private final InitRootUserUseCase initRootUserUseCase;
     private final CreateSchoolUseCase createSchoolUseCase;
     private final CreateAcademicYearUseCase createAcademicYearUseCase;
+    private final CreateGradeUseCase createGradeUseCase;
 
     @Override
     public SystemSetupStatus getSystemSetupStatus() {
@@ -93,6 +98,21 @@ public class SystemSetupService implements
         createAcademicYearUseCase.create(command);
         currentStatus.markStepCompleted(SetupStep.CREATE_ACADEMIC_YEAR);
 
+        return this.updateSystemStatus(currentStatus);
+    }
+
+    @Override
+    public SystemSetupStatus createGrades(List<CreateGradeCommand> command) {
+        SystemSetupStatus currentStatus = getSystemSetupStatus();
+        if (currentStatus.getCurrentStep() != SetupStep.CREATE_GRADES) {
+            throw new ForbiddenSetup("Cannot create grades at this step: " + currentStatus.getCurrentStep());
+        }
+
+        UUID schoolId = command.getFirst().getSchoolId();
+
+        command.forEach(gradeCommand -> createGradeUseCase.createGrade(gradeCommand, schoolId));
+
+        currentStatus.markStepCompleted(SetupStep.CREATE_GRADES);
         return this.updateSystemStatus(currentStatus);
     }
 }
