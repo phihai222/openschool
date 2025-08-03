@@ -6,6 +6,7 @@ import com.openschool.domain.school.School;
 import com.openschool.domain.systemsetup.SetupStep;
 import com.openschool.domain.systemsetup.SystemSetupStatus;
 import com.openschool.grade.port.in.CreateGradeUseCase;
+import com.openschool.grade.port.in.command.CreateGradeCommand;
 import com.openschool.identity.port.in.InitRootUserUseCase;
 import com.openschool.school.port.in.CreateSchoolUseCase;
 import com.openschool.school.port.in.command.CreateSchoolCommand;
@@ -18,6 +19,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -183,6 +185,46 @@ class SystemSetupServiceTest {
 
         assertEquals("Cannot create academic year at this step: CREATE_SCHOOL", exception.getMessage());
         verify(createAcademicYearUseCase, never()).create(any());
+    }
+
+    @Test
+    void testCreateGrades_WhenStepIsValid() {
+        SystemSetupStatus mockStatus = new SystemSetupStatus();
+        mockStatus.setId(id);
+        mockStatus.setCurrentStep(SetupStep.CREATE_GRADES);
+        when(systemSetupRepository.getSystemSetupStatus(id)).thenReturn(Optional.of(mockStatus));
+        when(systemSetupRepository.saveSystemStatus(any(SystemSetupStatus.class))).thenAnswer(invocation -> Optional.of(invocation.getArgument(0)));
+
+        // Mock CreateGradeCommand and list
+        CreateGradeCommand gradeCommand1 = mock(CreateGradeCommand.class);
+        CreateGradeCommand gradeCommand2 = mock(CreateGradeCommand.class);
+        UUID schoolId = UUID.randomUUID();
+        when(gradeCommand1.getSchoolId()).thenReturn(schoolId);
+        when(gradeCommand2.getSchoolId()).thenReturn(schoolId);
+        List<CreateGradeCommand> commands = List.of(gradeCommand1, gradeCommand2);
+
+        SystemSetupStatus result = systemSetupService.createGrades(commands);
+
+        assertNotNull(result);
+        assertTrue(result.getSteps().get(SetupStep.CREATE_GRADES));
+        verify(createGradeUseCase, times(1)).createGrade(gradeCommand1, schoolId);
+        verify(createGradeUseCase, times(1)).createGrade(gradeCommand2, schoolId);
+        verify(systemSetupRepository, times(1)).saveSystemStatus(any(SystemSetupStatus.class));
+    }
+
+    @Test
+    void testCreateGrades_WhenStepIsInvalid() {
+        SystemSetupStatus mockStatus = new SystemSetupStatus();
+        mockStatus.setId(id);
+        mockStatus.setCurrentStep(SetupStep.CREATE_SCHOOL);
+        when(systemSetupRepository.getSystemSetupStatus(id)).thenReturn(Optional.of(mockStatus));
+
+        CreateGradeCommand gradeCommand = mock(CreateGradeCommand.class);
+        List<CreateGradeCommand> commands = List.of(gradeCommand);
+
+        ForbiddenSetup exception = assertThrows(ForbiddenSetup.class, () -> systemSetupService.createGrades(commands));
+        assertEquals("Cannot create grades at this step: CREATE_SCHOOL", exception.getMessage());
+        verify(createGradeUseCase, never()).createGrade(any(), any());
     }
 
     @Test
