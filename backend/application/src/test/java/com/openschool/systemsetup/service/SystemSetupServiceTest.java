@@ -2,8 +2,10 @@ package com.openschool.systemsetup.service;
 
 import com.openschool.academic.port.in.CreateAcademicYearUseCase;
 import com.openschool.academic.port.in.command.CreateAcademicYearCommand;
+import com.openschool.domain.school.School;
 import com.openschool.domain.systemsetup.SetupStep;
 import com.openschool.domain.systemsetup.SystemSetupStatus;
+import com.openschool.grade.port.in.CreateGradeUseCase;
 import com.openschool.identity.port.in.InitRootUserUseCase;
 import com.openschool.school.port.in.CreateSchoolUseCase;
 import com.openschool.school.port.in.command.CreateSchoolCommand;
@@ -36,6 +38,9 @@ class SystemSetupServiceTest {
     @Mock
     private CreateAcademicYearUseCase createAcademicYearUseCase;
 
+    @Mock
+    private CreateGradeUseCase createGradeUseCase;
+
     @InjectMocks
     private SystemSetupService systemSetupService;
 
@@ -44,7 +49,7 @@ class SystemSetupServiceTest {
     @BeforeEach
     void setUp() {
         try (var ignored = MockitoAnnotations.openMocks(this)) {
-            systemSetupService = new SystemSetupService(systemSetupRepository, initRootUserUseCase, createSchoolUseCase, createAcademicYearUseCase);
+            systemSetupService = new SystemSetupService(systemSetupRepository, initRootUserUseCase, createSchoolUseCase, createAcademicYearUseCase, createGradeUseCase);
         } catch (Exception e) {
             throw new RuntimeException("Failed to initialize mocks", e);
         }
@@ -117,6 +122,12 @@ class SystemSetupServiceTest {
         when(systemSetupRepository.saveSystemStatus(any(SystemSetupStatus.class))).thenAnswer(invocation -> Optional.of(invocation.getArgument(0)));
 
         CreateSchoolCommand command = mock(CreateSchoolCommand.class);
+        // Mock School object to avoid NullPointerException
+        School mockSchool = School.builder()
+                .id(UUID.randomUUID())
+                .name("Test School")
+                .build();
+        when(createSchoolUseCase.create(command)).thenReturn(mockSchool);
 
         SystemSetupStatus result = systemSetupService.createSchoolProfile(command);
 
