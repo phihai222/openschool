@@ -16,6 +16,9 @@ public class SystemSetupStatusEntity {
     @Column(name = "id", nullable = false, updatable = false)
     private UUID id;
 
+    @Column(name = "school_id")
+    private UUID schoolId;
+
     @Column(name = "completed", nullable = false)
     private boolean completed;
 

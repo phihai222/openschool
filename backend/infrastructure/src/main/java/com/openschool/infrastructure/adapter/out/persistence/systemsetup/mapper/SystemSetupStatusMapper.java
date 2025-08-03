@@ -18,6 +18,7 @@ public class SystemSetupStatusMapper {
 
         return SystemSetupStatus.builder()
                 .id(entity.getId())
+                .schoolId(entity.getSchoolId())
                 .currentStep(SetupStep.valueOf(entity.getCurrentStep()))
                 .isCompleted(entity.isCompleted())
                 .steps(steps)
@@ -27,6 +28,7 @@ public class SystemSetupStatusMapper {
     public static SystemSetupStatusEntity toEntity(SystemSetupStatus domain) {
         SystemSetupStatusEntity e = new SystemSetupStatusEntity();
         e.setId(domain.getId());
+        e.setSchoolId(domain.getSchoolId());
         e.setCompleted(domain.isCompleted());
         e.setCurrentStep(domain.getCurrentStep().toString());
         e.setAdminCreated(domain.getSteps().getOrDefault(SetupStep.CREATE_ADMIN_USER, false));

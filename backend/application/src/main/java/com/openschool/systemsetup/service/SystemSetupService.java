@@ -2,6 +2,7 @@ package com.openschool.systemsetup.service;
 
 import com.openschool.academic.port.in.CreateAcademicYearUseCase;
 import com.openschool.academic.port.in.command.CreateAcademicYearCommand;
+import com.openschool.domain.school.School;
 import com.openschool.domain.systemsetup.SetupStep;
 import com.openschool.domain.systemsetup.SystemSetupStatus;
 import com.openschool.grade.port.in.CreateGradeUseCase;
@@ -81,7 +82,11 @@ public class SystemSetupService implements
         if (currentStatus.getCurrentStep() != SetupStep.CREATE_SCHOOL) {
             throw new ForbiddenSetup("Cannot create school profile at this step: " + currentStatus.getCurrentStep());
         }
-        createSchoolUseCase.create(command);
+
+        School newSchool = createSchoolUseCase.create(command);
+
+        // Update the current status with the new school ID
+        currentStatus.setSchoolId(newSchool.getId());
         currentStatus.markStepCompleted(SetupStep.CREATE_SCHOOL);
         return this.updateSystemStatus(currentStatus);
     }

@@ -15,6 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class SystemSetupStatus {
     private UUID id;
+    private UUID schoolId;
     private SetupStep currentStep;
     private boolean isCompleted;
 

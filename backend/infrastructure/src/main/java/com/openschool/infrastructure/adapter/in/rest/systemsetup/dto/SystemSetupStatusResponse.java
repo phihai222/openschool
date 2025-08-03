@@ -3,14 +3,18 @@ package com.openschool.infrastructure.adapter.in.rest.systemsetup.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Setter
 @Getter
 public class SystemSetupStatusResponse {
+    private UUID schoolId;
     private String currentStep;
     private boolean completed;
     private Steps steps;
 
-    public SystemSetupStatusResponse(String currentStep, boolean completed, Steps steps) {
+    public SystemSetupStatusResponse(UUID schoolId, String currentStep, boolean completed, Steps steps) {
+        this.schoolId = schoolId;
         this.currentStep = currentStep;
         this.completed = completed;
         this.steps = steps;

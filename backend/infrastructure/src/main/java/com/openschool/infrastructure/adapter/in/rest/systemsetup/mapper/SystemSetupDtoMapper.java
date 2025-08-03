@@ -17,6 +17,7 @@ public class SystemSetupDtoMapper {
             domain.getSteps().getOrDefault(SetupStep.CREATE_GRADES, false)
         );
         return new SystemSetupStatusResponse(
+            domain.getSchoolId(),
             domain.getCurrentStep().name(),
             domain.isCompleted(),
             stepsDto
