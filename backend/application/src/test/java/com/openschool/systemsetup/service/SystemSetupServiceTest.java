@@ -10,7 +10,7 @@ import com.openschool.grade.port.in.command.CreateGradeCommand;
 import com.openschool.identity.port.in.InitRootUserUseCase;
 import com.openschool.school.port.in.CreateSchoolUseCase;
 import com.openschool.school.port.in.command.CreateSchoolCommand;
-import com.openschool.systemsetup.exeption.ForbiddenSetup;
+import com.openschool.common.exception.ForbiddenSetup;
 import com.openschool.systemsetup.port.in.command.CreateAdminCommand;
 import com.openschool.systemsetup.port.out.SystemSetupRepositoryPort;
 import org.junit.jupiter.api.BeforeEach;

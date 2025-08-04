@@ -5,7 +5,7 @@ import com.openschool.domain.school.School;
 import com.openschool.grade.port.in.CreateGradeUseCase;
 import com.openschool.grade.port.in.command.CreateGradeCommand;
 import com.openschool.grade.port.out.GradeRepositoryPort;
-import com.openschool.identity.exception.DataNotFound;
+import com.openschool.common.exception.DataNotFound;
 import com.openschool.school.port.out.SchoolRepositoryPort;
 import lombok.AllArgsConstructor;
 

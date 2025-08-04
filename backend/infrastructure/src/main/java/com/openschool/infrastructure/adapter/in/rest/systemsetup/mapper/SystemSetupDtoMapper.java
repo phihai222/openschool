@@ -48,6 +48,7 @@ public class SystemSetupDtoMapper {
 
     public static CreateAcademicYearCommand toCommand(CreateAcademicYearRequest request) {
         CreateAcademicYearCommand command = new CreateAcademicYearCommand();
+        command.setSchoolId(request.getSchoolId());
         command.setCode(request.getCode());
         command.setName(request.getName());
         command.setStartDate(request.getStartDate());
@@ -59,6 +60,7 @@ public class SystemSetupDtoMapper {
 
     public static CreateGradeCommand toCommand(CreateGradeRequest request) {
         return CreateGradeCommand.builder()
+                .schoolId(request.getSchoolId())
                 .name(request.getName())
                 .code(request.getCode())
                 .allowClass(request.isAllowClass())

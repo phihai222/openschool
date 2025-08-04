@@ -13,6 +13,7 @@ import java.util.UUID;
 @Builder
 public class AcademicYear {
     private UUID id;
+    private UUID schoolId;
 
     // e.g. "2025-2026"
     private String code;

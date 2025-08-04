@@ -5,24 +5,30 @@ import com.openschool.academic.port.in.command.CreateSemesterCommand;
 import com.openschool.academic.port.out.AcademicYearRepositoryPort;
 import com.openschool.domain.academic.AcademicYear;
 import com.openschool.domain.academic.AcademicYearStatus;
+import com.openschool.domain.school.School;
+import com.openschool.school.port.out.SchoolRepositoryPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class AcademicYearServiceTest {
     private AcademicYearRepositoryPort academicYearRepository;
+    private SchoolRepositoryPort schoolRepository;
     private AcademicYearService academicYearService;
 
     @BeforeEach
     void setUp() {
         academicYearRepository = mock(AcademicYearRepositoryPort.class);
-        academicYearService = new AcademicYearService(academicYearRepository);
+        schoolRepository = mock(SchoolRepositoryPort.class);
+        academicYearService = new AcademicYearService(academicYearRepository, schoolRepository);
     }
 
     @Test
@@ -38,7 +44,11 @@ class AcademicYearServiceTest {
         semester2.setEndDate(LocalDate.of(2025, 12, 1));
         List<CreateSemesterCommand> semesters = Arrays.asList(semester1, semester2);
 
+        UUID schoolId = UUID.randomUUID();
+        School mockSchool = mock(School.class);
+        when(schoolRepository.findById(schoolId)).thenReturn(Optional.of(mockSchool));
         CreateAcademicYearCommand command = CreateAcademicYearCommand.builder()
+                .schoolId(schoolId)
                 .code("2025-2026")
                 .name("Academic Year 2025-2026")
                 .startDate(LocalDate.of(2025, 1, 1))

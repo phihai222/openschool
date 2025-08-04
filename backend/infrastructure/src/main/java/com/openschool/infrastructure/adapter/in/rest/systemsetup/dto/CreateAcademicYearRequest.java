@@ -7,10 +7,12 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
 public class CreateAcademicYearRequest {
+    private UUID schoolId;
     private String code;
     private String name;
 

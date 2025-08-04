@@ -1,7 +1,7 @@
 package com.openschool.identity.service;
 
 import com.openschool.domain.identity.model.Profile;
-import com.openschool.identity.exception.DataNotFound;
+import com.openschool.common.exception.DataNotFound;
 import com.openschool.identity.exception.InvalidCredentialsException;
 import com.openschool.identity.port.in.command.UpdateProfileCommand;
 import com.openschool.identity.port.out.IdentityRepositoryPort;

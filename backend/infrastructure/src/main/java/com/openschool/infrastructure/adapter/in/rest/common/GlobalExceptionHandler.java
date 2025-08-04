@@ -1,10 +1,10 @@
 package com.openschool.infrastructure.adapter.in.rest.common;
 
 import com.openschool.department.exception.DepartmentException;
-import com.openschool.identity.exception.DataNotFound;
+import com.openschool.common.exception.DataNotFound;
 import com.openschool.identity.exception.InvalidCredentialsException;
 import com.openschool.identity.exception.UserAlreadyExistsException;
-import com.openschool.systemsetup.exeption.ForbiddenSetup;
+import com.openschool.common.exception.ForbiddenSetup;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
