@@ -25,6 +25,7 @@ public class EmployeeMapper {
             return null;
         }
         return Employee.builder()
+                .employeeId(employee.getEmployeeId())
                 .firstName(command.getFirstName() != null ? command.getFirstName() : employee.getFirstName())
                 .lastName(command.getLastName() != null ? command.getLastName() : employee.getLastName())
                 .email(command.getEmail() != null ? command.getEmail() : employee.getEmail())

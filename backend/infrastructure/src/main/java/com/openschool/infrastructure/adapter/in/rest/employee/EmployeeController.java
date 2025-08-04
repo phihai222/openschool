@@ -45,7 +45,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity<EmployeeResponseDto> createEmployee(EmployeeRequestDto dto) {
+    public ResponseEntity<EmployeeResponseDto> createEmployee(@RequestBody EmployeeRequestDto dto) {
         Employee employee = createEmployeeUseCase.createEmployee(dtoToCreatedEmployeeCommand(dto));
         EmployeeResponseDto responseDto = EmployeeMapper.toEmployeeResponseDto(employee);
         return ResponseEntity.created(URI.create("/api/employees/" + employee.getEmployeeId()))
