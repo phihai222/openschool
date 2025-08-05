@@ -1,6 +1,6 @@
 package com.openschool.infrastructure.adapter.in.rest.department;
 
-import com.openschool.department.service.DepartmentService;
+import com.openschool.department.port.in.*;
 import com.openschool.domain.department.Department;
 import com.openschool.infrastructure.adapter.in.rest.department.dto.request.DepartmentRequestDto;
 import com.openschool.infrastructure.adapter.in.rest.department.dto.response.DepartmentResponseDto;
@@ -21,11 +21,15 @@ import static com.openschool.infrastructure.adapter.in.rest.department.mapper.De
 @RequiredArgsConstructor
 public class DepartmentController {
 
-    private final DepartmentService departmentService;
+    private final CreateDepartmentUseCase createDepartmentUseCase;
+    private final UpdateDepartmentUseCase updateDepartmentUseCase;
+    private final DeleteDepartmentUseCase deleteDepartmentUseCase;
+    private final GetListDepartmentUseCase getListDepartmentUseCase;
+    private final GetDetailDepartmentUseCase getDetailDepartmentUseCase;
 
     @PostMapping
     public ResponseEntity<DepartmentResponseDto> createDepartment(@RequestBody DepartmentRequestDto createDepartmentDto) {
-        Department department = departmentService.createDepartment(dtoToCreatedDepartmentCommand(createDepartmentDto));
+        Department department = createDepartmentUseCase.createDepartment(dtoToCreatedDepartmentCommand(createDepartmentDto));
         return ResponseEntity.created(URI.create("/api/departments/" + department.getDepartmentId()))
                 .body(toDepartmentResponseDto(department));
 
@@ -35,13 +39,13 @@ public class DepartmentController {
     public ResponseEntity<DepartmentResponseDto> updateDepartment(
             @PathVariable("departmentId") UUID departmentId,
             @RequestBody DepartmentRequestDto updateDepartmentDto) {
-        Department department = departmentService.updateDepartment(dtoToUpdatedDepartmentCommand(departmentId, updateDepartmentDto));
+        Department department = updateDepartmentUseCase.updateDepartment(dtoToUpdatedDepartmentCommand(departmentId, updateDepartmentDto));
         return ResponseEntity.ok(toDepartmentResponseDto(department));
     }
 
     @GetMapping
     public ResponseEntity<List<DepartmentResponseDto>> getDepartmentList() {
-        return ResponseEntity.ok(departmentService.getDepartmentList()
+        return ResponseEntity.ok(getListDepartmentUseCase.getDepartmentList()
                 .stream()
                 .map(DepartmentMapper::toDepartmentResponseDto)
                 .collect(Collectors.toList()));
@@ -50,15 +54,14 @@ public class DepartmentController {
 
     @GetMapping("/{departmentId}")
     public ResponseEntity<DepartmentResponseDto> getDepartmentDetail(@PathVariable("departmentId") UUID departmentId) {
-        Department department = departmentService.getDetailDepartment(departmentId);
+        Department department = getDetailDepartmentUseCase.getDetailDepartment(departmentId);
         return ResponseEntity.ok(toDepartmentResponseDto(department));
     }
 
     @DeleteMapping("/{departmentId}")
     public ResponseEntity<?> deleteDepartment(@PathVariable("departmentId") UUID departmentId) {
-        departmentService.deleteDepartment(departmentId);
+        deleteDepartmentUseCase.deleteDepartment(departmentId);
         return ResponseEntity.ok().build();
     }
-
 
 }
