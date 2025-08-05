@@ -56,7 +56,7 @@ public class EmployeeMapper {
         }
 
         return EmployeeEntity.builder()
-                .employeeId(employee.getEmployeeId() != null ? employee.getEmployeeId() : UUID.randomUUID())
+                .employeeId(employee.getEmployeeId())
                 .firstName(employee.getFirstName())
                 .lastName(employee.getLastName())
                 .email(employee.getEmail())

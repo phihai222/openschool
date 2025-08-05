@@ -13,7 +13,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 public class EmployeeRequestDto {
-    private UUID employeeId;
     private String firstName;
     private String lastName;
     private String email;
