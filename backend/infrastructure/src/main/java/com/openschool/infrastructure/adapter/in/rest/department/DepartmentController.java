@@ -6,7 +6,6 @@ import com.openschool.department.port.in.*;
 import com.openschool.domain.department.Department;
 import com.openschool.infrastructure.adapter.in.rest.department.dto.request.DepartmentRequestDto;
 import com.openschool.infrastructure.adapter.in.rest.department.dto.response.DepartmentResponseDto;
-import com.openschool.infrastructure.adapter.in.rest.department.mapper.DepartmentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +25,6 @@ public class DepartmentController {
     private final DeleteDepartmentUseCase deleteDepartmentUseCase;
     private final GetListDepartmentUseCase getListDepartmentUseCase;
     private final GetDetailDepartmentUseCase getDetailDepartmentUseCase;
-    private final DepartmentMapper departmentMapper;
 
     @PostMapping
     public ResponseEntity<DepartmentResponseDto> createDepartment(@RequestBody DepartmentRequestDto createDepartmentDto) {
@@ -54,7 +52,7 @@ public class DepartmentController {
                 .size(size)
                 .build();
         PageResult<Department> results = getListDepartmentUseCase.getDepartmentList(pageInfo);
-        return ResponseEntity.ok(departmentMapper.convertToResponsePage(results));
+        return ResponseEntity.ok(convertToResponsePage(results));
 
     }
 

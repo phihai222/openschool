@@ -14,7 +14,7 @@ public class PageResult<T> extends PageInfo {
     private Long totalPage;
     private Long totalElements;
 
-    public PageResult(Integer page, Integer size,List<T> data, Long totalPage, Long totalElements) {
+    public PageResult(Integer page, Integer size, List<T> data, Long totalPage, Long totalElements) {
         super(page, size);
         this.data = data;
         this.totalPage = totalPage;
