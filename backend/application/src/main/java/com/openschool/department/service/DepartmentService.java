@@ -1,5 +1,7 @@
 package com.openschool.department.service;
 
+import com.openschool.common.pageable.PageInfo;
+import com.openschool.common.pageable.PageResult;
 import com.openschool.department.exception.DepartmentException;
 import com.openschool.department.exception.ExceptionMessage;
 import com.openschool.department.port.in.*;
@@ -9,7 +11,6 @@ import com.openschool.department.port.out.DepartmentRepositoryPort;
 import com.openschool.domain.department.Department;
 import lombok.AllArgsConstructor;
 
-import java.util.List;
 import java.util.UUID;
 
 import static com.openschool.department.mapper.DepartmentMapper.toDepartment;
@@ -42,8 +43,8 @@ public class DepartmentService implements CreateDepartmentUseCase,
     }
 
     @Override
-    public List<Department> getDepartmentList() {
-        return departmentRepositoryPort.findAll();
+    public PageResult<Department> getDepartmentList(PageInfo pageInfo) {
+        return departmentRepositoryPort.findAll(pageInfo);
     }
 
     @Override

@@ -1,11 +1,16 @@
 package com.openschool.infrastructure.adapter.out.persistence.department.repository;
 
+import com.openschool.common.pageable.PageInfo;
+import com.openschool.common.pageable.PageResult;
 import com.openschool.department.port.out.DepartmentRepositoryPort;
 import com.openschool.domain.department.Department;
 import com.openschool.infrastructure.adapter.in.rest.department.mapper.DepartmentMapper;
 import com.openschool.infrastructure.adapter.out.persistence.department.entity.DepartmentEntity;
 import com.openschool.infrastructure.adapter.out.persistence.department.repository.jpa.JpaDepartmentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -36,20 +41,22 @@ public class DepartmentRepositoryAdapter implements DepartmentRepositoryPort {
         }
         DepartmentEntity entity = jpaDepartmentRepository.findById(department.getDepartmentId())
                 .orElse(null);
+
+        entity = updateDepartmentEntity(entity, department);
+
         if (entity == null) {
             return null;
         }
-        entity = updateDepartmentEntity(entity, department);
         entity = jpaDepartmentRepository.save(entity);
         return toDepartment(entity);
     }
 
     @Override
-    public List<Department> findAll() {
-        return jpaDepartmentRepository.findAll()
-                .stream()
-                .map(DepartmentMapper::toDepartment)
-                .toList();
+    public PageResult<Department> findAll(PageInfo pageInfo) {
+        Pageable pageable = PageRequest.of(pageInfo.getPage(), pageInfo.getSize());
+        Page<DepartmentEntity> departmentEntities = jpaDepartmentRepository.findAll(pageable);
+        List<Department> departments = departmentEntities.stream().map(DepartmentMapper::toDepartment).toList();
+        return new PageResult<>(pageInfo.getPage(), pageInfo.getSize(),departments, (long) departmentEntities.getTotalPages(), departmentEntities.getTotalElements() );
     }
 
     @Override

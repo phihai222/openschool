@@ -1,16 +1,21 @@
 package com.openschool.infrastructure.adapter.in.rest.department.mapper;
 
+import com.openschool.common.pageable.PageConverter;
+import com.openschool.common.pageable.PageResult;
 import com.openschool.department.port.in.command.CreatedDepartmentCommand;
 import com.openschool.department.port.in.command.UpdateDepartmentCommand;
 import com.openschool.domain.department.Department;
 import com.openschool.infrastructure.adapter.in.rest.department.dto.request.DepartmentRequestDto;
 import com.openschool.infrastructure.adapter.in.rest.department.dto.response.DepartmentResponseDto;
 import com.openschool.infrastructure.adapter.out.persistence.department.entity.DepartmentEntity;
+import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
-public class DepartmentMapper {
+@Component
+public class DepartmentMapper implements PageConverter<Department, DepartmentResponseDto> {
 
     public static DepartmentResponseDto toDepartmentResponseDto(Department department) {
         return DepartmentResponseDto.builder()
@@ -95,4 +100,17 @@ public class DepartmentMapper {
     }
 
 
+    @Override
+    public PageResult<DepartmentResponseDto> convertToResponsePage(PageResult<Department> pageResult) {
+        List<DepartmentResponseDto> departmentResponseDtos = pageResult.getData().stream()
+                .map(DepartmentMapper::toDepartmentResponseDto)
+                .toList();
+        return new PageResult<>(
+                pageResult.getPage(),
+                pageResult.getSize(),
+                departmentResponseDtos,
+                pageResult.getTotalPage(),
+                pageResult.getTotalElements()
+        );
+    }
 }

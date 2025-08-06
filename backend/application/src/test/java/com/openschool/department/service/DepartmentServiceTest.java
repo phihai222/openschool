@@ -1,15 +1,15 @@
-package com.openschool.identity.service;
+package com.openschool.department.service;
 
+import com.openschool.common.pageable.PageInfo;
+import com.openschool.common.pageable.PageResult;
 import com.openschool.department.exception.DepartmentException;
 import com.openschool.department.exception.ExceptionMessage;
 import com.openschool.department.port.in.command.CreatedDepartmentCommand;
 import com.openschool.department.port.in.command.UpdateDepartmentCommand;
 import com.openschool.department.port.out.DepartmentRepositoryPort;
-import com.openschool.department.service.DepartmentService;
 import com.openschool.domain.department.Department;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 
 import java.util.List;
 import java.util.Optional;
@@ -70,12 +70,15 @@ class DepartmentServiceTest {
     }
 
     @Test
-    void getDepartmentListReturnsAll() {
-        List<Department> departments = List.of(new Department(), new Department());
-        when(departmentRepositoryPort.findAll()).thenReturn(departments);
+    void getDepartmentListWithPageInfoReturnsPageResult() {
+        PageInfo pageInfo = mock(PageInfo.class);
+        PageResult<Department> pageResult = mock(PageResult.class);
+        when(departmentRepositoryPort.findAll(pageInfo)).thenReturn(pageResult);
 
-        List<Department> result = departmentService.getDepartmentList();
-        assertEquals(2, result.size());
+        PageResult<Department> result = departmentService.getDepartmentList(pageInfo);
+        assertNotNull(result);
+        assertEquals(pageResult, result);
+        verify(departmentRepositoryPort).findAll(pageInfo);
     }
 
     @Test
@@ -120,4 +123,5 @@ class DepartmentServiceTest {
         assertDoesNotThrow(() -> departmentService.deleteDepartment(id));
         verify(departmentRepositoryPort).delete(department);
     }
+
 }
