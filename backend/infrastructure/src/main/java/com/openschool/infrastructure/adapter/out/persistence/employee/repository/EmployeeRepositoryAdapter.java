@@ -1,14 +1,18 @@
 package com.openschool.infrastructure.adapter.out.persistence.employee.repository;
 
+import com.openschool.common.pageable.PageInfo;
+import com.openschool.common.pageable.PageResult;
 import com.openschool.domain.employee.Employee;
 import com.openschool.employee.port.out.EmployeeRepositoryPort;
 import com.openschool.infrastructure.adapter.in.rest.employee.mapper.EmployeeMapper;
 import com.openschool.infrastructure.adapter.out.persistence.employee.entity.EmployeeEntity;
 import com.openschool.infrastructure.adapter.out.persistence.employee.repository.jpa.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -59,9 +63,18 @@ public class EmployeeRepositoryAdapter implements EmployeeRepositoryPort {
     }
 
     @Override
-    public List<Employee> getListEmployee() {
-        List<EmployeeEntity> employeeEntities = employeeRepository.findAll();
-        return employeeEntities.stream().map(EmployeeMapper::toEmployee).collect(Collectors.toList());
+    public PageResult<Employee> getListEmployee(PageInfo pageInfo) {
+        Pageable page = PageRequest.of(pageInfo.getPage(), pageInfo.getSize());
+        Page<EmployeeEntity> employeeEntities = employeeRepository.findAll(page);
+        return new PageResult<>(
+                pageInfo.getPage(),
+                pageInfo.getSize(),
+                employeeEntities.stream()
+                        .map(EmployeeMapper::toEmployee)
+                        .collect(Collectors.toList()),
+                (long) employeeEntities.getTotalPages(),
+                employeeEntities.getTotalElements()
+        );
     }
 
     @Override
@@ -77,5 +90,10 @@ public class EmployeeRepositoryAdapter implements EmployeeRepositoryPort {
         }catch(Exception e){
             return false;
         }
+    }
+
+    @Override
+    public PageResult<Employee> getListEmployeeInDepartment(PageInfo pageInfo, UUID departmentId) {
+        return null;
     }
 }

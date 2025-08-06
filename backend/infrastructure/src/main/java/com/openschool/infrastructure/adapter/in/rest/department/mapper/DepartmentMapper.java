@@ -105,7 +105,7 @@ public class DepartmentMapper {
                 pageResult.getPage(),
                 pageResult.getSize(),
                 departmentResponseDtos,
-                pageResult.getTotalPage(),
+                pageResult.getTotalPages(),
                 pageResult.getTotalElements()
         );
     }

@@ -1,5 +1,7 @@
 package com.openschool.employee.service;
 
+import com.openschool.common.pageable.PageInfo;
+import com.openschool.common.pageable.PageResult;
 import com.openschool.domain.employee.Employee;
 import com.openschool.employee.exception.EmployeeException;
 import com.openschool.employee.port.in.*;
@@ -18,7 +20,13 @@ import static com.openschool.employee.mapper.EmployeeMapper.toEmployee;
 
 @RequiredArgsConstructor
 @Data
-public class EmployeeService implements CreateEmployeeUseCase, UpdateEmployeeUseCase, GetDetailEmployeeUseCase, DeleteEmployeeUseCase, GetListEmployeeUseCase {
+public class EmployeeService implements
+        CreateEmployeeUseCase,
+        UpdateEmployeeUseCase,
+        GetDetailEmployeeUseCase,
+        DeleteEmployeeUseCase,
+        GetListEmployeeUseCase
+         {
 
     private final EmployeeRepositoryPort employeeRepositoryPort;
 
@@ -58,8 +66,8 @@ public class EmployeeService implements CreateEmployeeUseCase, UpdateEmployeeUse
     }
 
     @Override
-    public List<Employee> getListEmployee() {
-        return employeeRepositoryPort.getListEmployee();
+    public PageResult<Employee> getListEmployee(PageInfo pageinfo) {
+        return employeeRepositoryPort.getListEmployee(pageinfo);
     }
 
 }

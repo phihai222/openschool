@@ -1,5 +1,7 @@
 package com.openschool.employee.port.out;
 
+import com.openschool.common.pageable.PageInfo;
+import com.openschool.common.pageable.PageResult;
 import com.openschool.domain.employee.Employee;
 
 import java.util.List;
@@ -16,7 +18,7 @@ public interface EmployeeRepositoryPort {
 
     Optional<Employee> findByPhoneNumberOrEmail(String phoneNumber, String email);
 
-    List<Employee> getListEmployee();
+    PageResult<Employee> getListEmployee(PageInfo pageInfo);
 
     boolean deleteEmployee(UUID employeeId);
 }

@@ -1,5 +1,6 @@
 package com.openschool.infrastructure.adapter.in.rest.employee.mapper;
 
+import com.openschool.common.pageable.PageResult;
 import com.openschool.domain.employee.Employee;
 import com.openschool.employee.port.in.command.CreatedEmployeeCommand;
 import com.openschool.employee.port.in.command.UpdatedEmployeeCommand;
@@ -96,6 +97,18 @@ public class EmployeeMapper {
         entity.setEmployeeType(employee.getEmployeeType() != null ? employee.getEmployeeType() : entity.getEmployeeType());
         entity.setUpdatedAt(Instant.now());
         return entity;
+    }
+
+    public static PageResult<EmployeeResponseDto> toEmployeeResponseDtoPageResult(PageResult<Employee> pageResult) {
+        return new PageResult<>(
+                pageResult.getPage(),
+                pageResult.getSize(),
+                pageResult.getData().stream()
+                        .map(EmployeeMapper::toEmployeeResponseDto)
+                        .toList(),
+                pageResult.getTotalPages(),
+                pageResult.getTotalElements()
+        );
     }
 
 

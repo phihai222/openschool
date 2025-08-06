@@ -1,5 +1,7 @@
 package com.openschool.employee.service;
 
+import com.openschool.common.pageable.PageInfo;
+import com.openschool.common.pageable.PageResult;
 import com.openschool.domain.employee.Employee;
 import com.openschool.employee.exception.EmployeeException;
 import com.openschool.employee.port.in.command.CreatedEmployeeCommand;
@@ -181,32 +183,37 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void getDetailEmployeeFailsWhenNotFound() {
-        UUID employeeId = UUID.randomUUID();
+    void getListEmployeeReturnsPagedResults() {
+        PageInfo pageInfo = new PageInfo(0, 2);
+        List<Employee> employees = List.of(
+                Employee.builder().employeeId(UUID.randomUUID()).firstName("John").build(),
+                Employee.builder().employeeId(UUID.randomUUID()).firstName("Jane").build()
+        );
+        PageResult<Employee> pageResult = new PageResult<>(pageInfo.getPage(), pageInfo.getSize(), employees, 1L, 2L);
 
-        when(employeeRepositoryPort.getDetailEmployee(employeeId)).thenReturn(Optional.empty());
+        when(employeeRepositoryPort.getListEmployee(pageInfo)).thenReturn(pageResult);
 
-        assertThrows(EmployeeException.class, () -> employeeService.getDetailEmployee(employeeId));
+        PageResult<Employee> result = employeeService.getListEmployee(pageInfo);
+
+        assertNotNull(result);
+        assertEquals(2, result.getData().size());
+        assertEquals(2, result.getTotalElements());
+        assertEquals(1, result.getTotalPages());
     }
 
     @Test
-    void getListEmployeeSuccessfully() {
-        List<Employee> employees = List.of(
-                Employee.builder()
-                        .employeeId(UUID.randomUUID())
-                        .firstName("John")
-                        .lastName("Doe")
-                        .build(),
-                Employee.builder()
-                        .employeeId(UUID.randomUUID())
-                        .firstName("Jane")
-                        .lastName("Smith")
-                        .build()
-                       );
+    void getListEmployeeReturnsEmptyWhenNoEmployees() {
+        PageInfo pageInfo = new PageInfo(0, 10);
+        PageResult<Employee> emptyResult = new PageResult<>();
+        emptyResult.setData(List.of());
+        emptyResult.setTotalElements(0L);
 
-        when(employeeRepositoryPort.getListEmployee()).thenReturn(employees);
-        List<Employee> result = employeeService.getListEmployee();
+        when(employeeRepositoryPort.getListEmployee(pageInfo)).thenReturn(emptyResult);
+
+        PageResult<Employee> result = employeeService.getListEmployee(pageInfo);
+
         assertNotNull(result);
-        assertEquals(2, result.size());
+        assertTrue(result.getData().isEmpty());
+        assertEquals(0, result.getTotalElements());
     }
 }

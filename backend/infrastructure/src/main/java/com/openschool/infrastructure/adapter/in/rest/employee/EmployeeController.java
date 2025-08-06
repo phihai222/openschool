@@ -1,5 +1,7 @@
 package com.openschool.infrastructure.adapter.in.rest.employee;
 
+import com.openschool.common.pageable.PageInfo;
+import com.openschool.common.pageable.PageResult;
 import com.openschool.domain.employee.Employee;
 import com.openschool.employee.port.in.*;
 import com.openschool.infrastructure.adapter.in.rest.employee.dto.request.EmployeeRequestDto;
@@ -14,8 +16,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.openschool.infrastructure.adapter.in.rest.employee.mapper.EmployeeMapper.dtoToCreatedEmployeeCommand;
-import static com.openschool.infrastructure.adapter.in.rest.employee.mapper.EmployeeMapper.dtoToUpdatedEmployeeCommand;
+import static com.openschool.infrastructure.adapter.in.rest.employee.mapper.EmployeeMapper.*;
 
 @RestController
 @RequestMapping("/api/employees")
@@ -28,12 +29,16 @@ public class EmployeeController {
     private final DeleteEmployeeUseCase deleteEmployeeUseCase;
 
     @GetMapping
-    public ResponseEntity<List<EmployeeResponseDto>> getListEmployee() {
-        List<Employee> employees = getListEmployeeUseCase.getListEmployee();
-        List<EmployeeResponseDto> responseDTOs = employees.stream()
-                .map(EmployeeMapper::toEmployeeResponseDto)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(responseDTOs);
+    public ResponseEntity<PageResult<EmployeeResponseDto>> getListEmployee(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size
+    ) {
+        PageInfo pageInfo = PageInfo.builder()
+                .page(page)
+                .size(size)
+                .build();
+        PageResult<Employee> employees = getListEmployeeUseCase.getListEmployee(pageInfo);
+        return ResponseEntity.ok(toEmployeeResponseDtoPageResult(employees));
     }
 
     @GetMapping("/{employeeId}")
