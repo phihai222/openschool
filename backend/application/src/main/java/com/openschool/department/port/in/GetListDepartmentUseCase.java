@@ -1,9 +1,9 @@
 package com.openschool.department.port.in;
 
+import com.openschool.common.pageable.PageInfo;
+import com.openschool.common.pageable.PageResult;
 import com.openschool.domain.department.Department;
 
-import java.util.List;
-
 public interface GetListDepartmentUseCase {
-    List<Department> getDepartmentList();
+    PageResult<Department> getDepartmentList(PageInfo pageInfo);
 }

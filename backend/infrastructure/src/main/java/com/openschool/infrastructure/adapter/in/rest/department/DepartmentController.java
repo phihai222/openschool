@@ -1,18 +1,17 @@
 package com.openschool.infrastructure.adapter.in.rest.department;
 
+import com.openschool.common.pageable.PageInfo;
+import com.openschool.common.pageable.PageResult;
 import com.openschool.department.port.in.*;
 import com.openschool.domain.department.Department;
 import com.openschool.infrastructure.adapter.in.rest.department.dto.request.DepartmentRequestDto;
 import com.openschool.infrastructure.adapter.in.rest.department.dto.response.DepartmentResponseDto;
-import com.openschool.infrastructure.adapter.in.rest.department.mapper.DepartmentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static com.openschool.infrastructure.adapter.in.rest.department.mapper.DepartmentMapper.*;
 
@@ -44,11 +43,16 @@ public class DepartmentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<DepartmentResponseDto>> getDepartmentList() {
-        return ResponseEntity.ok(getListDepartmentUseCase.getDepartmentList()
-                .stream()
-                .map(DepartmentMapper::toDepartmentResponseDto)
-                .collect(Collectors.toList()));
+    public ResponseEntity<PageResult<DepartmentResponseDto>> getDepartmentList(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size
+    ) {
+        PageInfo pageInfo = PageInfo.builder()
+                .page(page)
+                .size(size)
+                .build();
+        PageResult<Department> results = getListDepartmentUseCase.getDepartmentList(pageInfo);
+        return ResponseEntity.ok(convertToResponsePage(results));
 
     }
 

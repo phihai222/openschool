@@ -1,8 +1,9 @@
 package com.openschool.department.port.out;
 
+import com.openschool.common.pageable.PageInfo;
+import com.openschool.common.pageable.PageResult;
 import com.openschool.domain.department.Department;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -12,7 +13,7 @@ public interface DepartmentRepositoryPort {
 
     Department update(Department department);
 
-    List<Department> findAll();
+    PageResult<Department> findAll(PageInfo pageInfo);
 
     Optional<Department> findById(UUID id);
 

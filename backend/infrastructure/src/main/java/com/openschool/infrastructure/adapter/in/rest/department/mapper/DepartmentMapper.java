@@ -1,5 +1,6 @@
 package com.openschool.infrastructure.adapter.in.rest.department.mapper;
 
+import com.openschool.common.pageable.PageResult;
 import com.openschool.department.port.in.command.CreatedDepartmentCommand;
 import com.openschool.department.port.in.command.UpdateDepartmentCommand;
 import com.openschool.domain.department.Department;
@@ -8,6 +9,7 @@ import com.openschool.infrastructure.adapter.in.rest.department.dto.response.Dep
 import com.openschool.infrastructure.adapter.out.persistence.department.entity.DepartmentEntity;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 public class DepartmentMapper {
@@ -95,4 +97,16 @@ public class DepartmentMapper {
     }
 
 
+    public static PageResult<DepartmentResponseDto> convertToResponsePage(PageResult<Department> pageResult) {
+        List<DepartmentResponseDto> departmentResponseDtos = pageResult.getData().stream()
+                .map(DepartmentMapper::toDepartmentResponseDto)
+                .toList();
+        return new PageResult<>(
+                pageResult.getPage(),
+                pageResult.getSize(),
+                departmentResponseDtos,
+                pageResult.getTotalPage(),
+                pageResult.getTotalElements()
+        );
+    }
 }
