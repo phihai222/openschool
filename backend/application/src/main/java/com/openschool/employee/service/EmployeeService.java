@@ -162,7 +162,7 @@ public class EmployeeService implements
         }
         boolean isExistHomeTeacher = currentDepartment.getEmployeeIds().stream()
                 .anyMatch(id -> {
-                    Optional<Employee> employee = employeeRepositoryPort.getDetailEmployee(employeeId);
+                    Optional<Employee> employee = employeeRepositoryPort.getDetailEmployee(id);
                     if (employee.isPresent()) {
                         return employee.get().getEmployeeType() == EmployeeType.HOMEROOM_TEACHER;
                     } else {

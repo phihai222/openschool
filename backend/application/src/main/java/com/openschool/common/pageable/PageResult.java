@@ -1,6 +1,5 @@
 package com.openschool.common.pageable;
 
-import com.openschool.domain.employee.Employee;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

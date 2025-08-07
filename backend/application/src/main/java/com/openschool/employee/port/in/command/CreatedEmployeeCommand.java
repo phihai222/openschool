@@ -19,7 +19,6 @@ public class CreatedEmployeeCommand {
     private String email;
     private String phoneNumber;
     private UUID department;
-    private String position;
     private EmployeeType employeeType;
 
 }

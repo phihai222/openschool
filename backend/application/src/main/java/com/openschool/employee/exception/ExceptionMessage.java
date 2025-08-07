@@ -8,7 +8,7 @@ public class ExceptionMessage {
     public static final String EMPLOYEE_UPDATE_FAIL = "Update Employee failed due to invalid data";
     public static final String EMPLOYEE_ASSIGNED_FAIL = "Assign Employee to Department failed";
     public static final String EMPLOYEE_MOVED_FAIL = "Move Employee failed";
-    public static final String EMPLOYEE_REMOVED_FAIL = "Move Employee failed";
+    public static final String EMPLOYEE_REMOVED_FAIL = "Remove Employee failed";
 
     public static final String EMPLOYEE_SET_FAIL = "Set position to Employee failed";
 
