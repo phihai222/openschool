@@ -21,7 +21,6 @@ public class EmployeeMapper {
                 .email(employee.getEmail())
                 .phoneNumber(employee.getPhoneNumber())
                 .department(employee.getDepartment())
-                .position(employee.getPosition())
                 .employeeType(employee.getEmployeeType())
                 .build();
     }
@@ -33,7 +32,6 @@ public class EmployeeMapper {
                 .email(dto.getEmail())
                 .phoneNumber(dto.getPhoneNumber())
                 .department(dto.getDepartment())
-                .position(dto.getPosition())
                 .employeeType(dto.getEmployeeType())
                 .build();
     }
@@ -46,7 +44,6 @@ public class EmployeeMapper {
                 .email(dto.getEmail())
                 .phoneNumber(dto.getPhoneNumber())
                 .department(dto.getDepartment())
-                .position(dto.getPosition())
                 .employeeType(dto.getEmployeeType())
                 .build();
     }
@@ -63,7 +60,6 @@ public class EmployeeMapper {
                 .email(employee.getEmail())
                 .phoneNumber(employee.getPhoneNumber())
                 .department(employee.getDepartment())
-                .position(employee.getPosition())
                 .employeeType(employee.getEmployeeType())
                 .build();
     }
@@ -79,7 +75,6 @@ public class EmployeeMapper {
                 .email(entity.getEmail())
                 .phoneNumber(entity.getPhoneNumber())
                 .department(entity.getDepartment())
-                .position(entity.getPosition())
                 .employeeType(entity.getEmployeeType())
                 .build();
     }
@@ -93,7 +88,6 @@ public class EmployeeMapper {
         entity.setEmail(employee.getEmail() != null ? employee.getEmail() : entity.getEmail());
         entity.setPhoneNumber(employee.getPhoneNumber() != null ? employee.getPhoneNumber() : entity.getPhoneNumber());
         entity.setDepartment(employee.getDepartment() != null ? employee.getDepartment() : entity.getDepartment());
-        entity.setPosition(employee.getPosition() != null ? employee.getPosition() : entity.getPosition());
         entity.setEmployeeType(employee.getEmployeeType() != null ? employee.getEmployeeType() : entity.getEmployeeType());
         entity.setUpdatedAt(Instant.now());
         return entity;

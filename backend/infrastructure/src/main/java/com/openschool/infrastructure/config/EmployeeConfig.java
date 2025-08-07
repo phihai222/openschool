@@ -1,5 +1,6 @@
 package com.openschool.infrastructure.config;
 
+import com.openschool.department.port.out.DepartmentRepositoryPort;
 import com.openschool.employee.port.in.*;
 import com.openschool.employee.port.out.EmployeeRepositoryPort;
 import com.openschool.employee.service.EmployeeService;
@@ -13,11 +14,12 @@ import org.springframework.context.annotation.Primary;
 public class EmployeeConfig {
 
     private final EmployeeRepositoryPort employeeRepositoryPort;
+    private final DepartmentRepositoryPort departmentRepositoryPort;
 
     @Bean
     @Primary
     public EmployeeService EmployeeService() {
-        return new EmployeeService(employeeRepositoryPort);
+        return new EmployeeService(employeeRepositoryPort, departmentRepositoryPort);
     }
 
     @Bean
@@ -42,6 +44,31 @@ public class EmployeeConfig {
 
     @Bean
     public GetDetailEmployeeUseCase getDetailEmployeeUseCase(EmployeeService employeeService) {
+        return employeeService;
+    }
+
+    @Bean
+    public SetEmployeeTypeUseCase setEmployeeTypeUseCase(EmployeeService employeeService) {
+        return employeeService;
+    }
+
+    @Bean
+    public AssignEmployeeUseCase assignEmployeeUseCase(EmployeeService employeeService) {
+        return employeeService;
+    }
+
+    @Bean
+    public GetListEmployeeInDepartmentUseCase getListEmployeeInDepartmentUseCase(EmployeeService employeeService) {
+        return employeeService;
+    }
+
+    @Bean
+    public MoveEmployeeUseCase moveEmployeeUseCase(EmployeeService employeeService) {
+        return employeeService;
+    }
+
+    @Bean
+    public RemoveEmployeeUseCase removeEmployeeUseCase(EmployeeService employeeService) {
         return employeeService;
     }
 

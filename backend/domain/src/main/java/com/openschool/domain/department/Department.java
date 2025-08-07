@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -20,5 +21,7 @@ public class Department {
     private String departmentCode;
     private String departmentEmail;
     private String departmentPhone;
+
+    private List<UUID> employeeIds;
 
 }

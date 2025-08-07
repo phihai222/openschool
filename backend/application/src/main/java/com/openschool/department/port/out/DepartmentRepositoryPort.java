@@ -20,4 +20,5 @@ public interface DepartmentRepositoryPort {
     Optional<Department> findByDepartmentName(String name);
 
     boolean delete(Department department);
+
 }
