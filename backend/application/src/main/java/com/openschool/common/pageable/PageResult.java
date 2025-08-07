@@ -11,13 +11,13 @@ import java.util.List;
 @NoArgsConstructor
 public class PageResult<T> extends PageInfo {
     private List<T> data;
-    private Long totalPage;
+    private Long totalPages;
     private Long totalElements;
 
-    public PageResult(Integer page, Integer size, List<T> data, Long totalPage, Long totalElements) {
+    public PageResult(Integer page, Integer size, List<T> data, Long totalPages, Long totalElements) {
         super(page, size);
         this.data = data;
-        this.totalPage = totalPage;
+        this.totalPages = totalPages;
         this.totalElements = totalElements;
     }
 

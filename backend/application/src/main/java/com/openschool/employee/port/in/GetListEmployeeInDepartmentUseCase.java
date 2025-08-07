@@ -4,8 +4,8 @@ import com.openschool.common.pageable.PageInfo;
 import com.openschool.common.pageable.PageResult;
 import com.openschool.domain.employee.Employee;
 
-import java.util.List;
+import java.util.UUID;
 
-public interface GetListEmployeeUseCase {
-    PageResult<Employee> getListEmployee(PageInfo pageinfo);
+public interface GetListEmployeeInDepartmentUseCase {
+    PageResult<Employee> getListEmployee(PageInfo pageInfo, UUID departmentId);
 }

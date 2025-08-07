@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Builder
 @Data
 @AllArgsConstructor
@@ -16,8 +18,7 @@ public class CreatedEmployeeCommand {
     private String lastName;
     private String email;
     private String phoneNumber;
-    private String department;
-    private String position;
+    private UUID department;
     private EmployeeType employeeType;
 
 }

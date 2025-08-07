@@ -56,7 +56,7 @@ public class DepartmentRepositoryAdapter implements DepartmentRepositoryPort {
         Pageable pageable = PageRequest.of(pageInfo.getPage(), pageInfo.getSize());
         Page<DepartmentEntity> departmentEntities = jpaDepartmentRepository.findAll(pageable);
         List<Department> departments = departmentEntities.stream().map(DepartmentMapper::toDepartment).toList();
-        return new PageResult<>(pageInfo.getPage(), pageInfo.getSize(),departments, (long) departmentEntities.getTotalPages(), departmentEntities.getTotalElements() );
+        return new PageResult<>(pageInfo.getPage(), pageInfo.getSize(), departments, (long) departmentEntities.getTotalPages(), departmentEntities.getTotalElements());
     }
 
     @Override
@@ -89,5 +89,4 @@ public class DepartmentRepositoryAdapter implements DepartmentRepositoryPort {
         jpaDepartmentRepository.delete(entity);
         return true;
     }
-
 }

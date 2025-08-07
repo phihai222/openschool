@@ -15,7 +15,6 @@ public class EmployeeMapper {
                 .email(command.getEmail())
                 .phoneNumber(command.getPhoneNumber())
                 .department(command.getDepartment())
-                .position(command.getPosition())
                 .employeeType(command.getEmployeeType())
                 .build();
     }
@@ -31,7 +30,6 @@ public class EmployeeMapper {
                 .email(command.getEmail() != null ? command.getEmail() : employee.getEmail())
                 .phoneNumber(command.getPhoneNumber() != null ? command.getPhoneNumber() : employee.getPhoneNumber())
                 .department(command.getDepartment() != null ? command.getDepartment() : employee.getDepartment())
-                .position(command.getPosition() != null ? command.getPosition() : employee.getPosition())
                 .employeeType(command.getEmployeeType() != null ? command.getEmployeeType() : employee.getEmployeeType())
                 .build();
     }
