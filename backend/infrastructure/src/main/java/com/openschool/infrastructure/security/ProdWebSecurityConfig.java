@@ -31,6 +31,7 @@ public class ProdWebSecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
+//                .cors(cors-> {}) // Uncomment if CORS is needed
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
